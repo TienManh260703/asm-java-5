@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -25,14 +24,14 @@ import static com.example.shopapp.common.GenCode.generatePRODUCT;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductController {
     ProductServiceIplm productService;
-    static String url = "/shop-app/products/";
+    static String URL = "/shop-app/products/";
 
     @GetMapping
     public String getAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "5") Integer size,
             Model model) {
-        model.addAttribute("url", url + "add");
+        model.addAttribute("url", URL + "add");
         model.addAttribute("product", Product.builder().code(generatePRODUCT()).build());
         model.addAttribute("products", productService.getProductPage(PageRequest.of(page, size)));
         return "/products/index";
@@ -63,7 +62,7 @@ public class ProductController {
         }
         productService.updateProduct(id, product);
         model.addAttribute("id", product.getId());
-        model.addAttribute("url", url + "add");
+        model.addAttribute("url", URL + "add");
         return "redirect:/shop-app/products";
     }
 
@@ -76,10 +75,9 @@ public class ProductController {
         Product product = productService.getProduct(id);
         model.addAttribute("id", product.getId());
         model.addAttribute("product", product);
-        productService.updateProduct(id, product);
         PageRequest pageRequest = PageRequest.of(page, size);
         model.addAttribute("products", productService.getProductPage(pageRequest));
-        model.addAttribute("url", url + "update");
+        model.addAttribute("url", URL + "update");
         model.addAttribute("isEdit", true);
         return "/products/index";
     }
@@ -91,11 +89,12 @@ public class ProductController {
                          Model model) {
         Product product = productService.getProduct(id);
         model.addAttribute("product", product);
-        productService.updateProduct(id, product);
+
         model.addAttribute("id", product.getId());
+
         model.addAttribute("products", productService.getProductPage(PageRequest.of(page, size)));
         model.addAttribute("isDetail", true);
-        model.addAttribute("url", url + "update");
+        model.addAttribute("url", URL + "update");
         return "/products/index";
     }
 
@@ -111,7 +110,7 @@ public class ProductController {
                          @RequestParam(value = "size", defaultValue = "5") Integer size,
                          Model model) {
 
-        model.addAttribute("url", "add");
+        model.addAttribute("url", URL +"add");
         model.addAttribute("product", Product.builder().code(generatePRODUCT()).build());
         Page<Product> products = productService.search(id, PageRequest.of(page, size));
         if (products.isEmpty()) {

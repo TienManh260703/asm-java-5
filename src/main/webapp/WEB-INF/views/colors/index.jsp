@@ -8,64 +8,27 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Products Page</title>
+    <title>Colors Page</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 </head>
 <body class="bg-body-secondary ">
-<nav class="mb-5 navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                       aria-expanded="false">
-                        Dropdown
-                    </a>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li>
-                            <hr class="dropdown-divider">
-                        </li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                </li>
-            </ul>
-            <form class="d-flex" role="search">
-                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
-        </div>
-    </div>
-</nav>
-<c:set var="currentPage" value="${products.number}"/>
-<c:set var="pageSize" value="${products.size}"/>
+
+<c:set var="currentPage" value="${colors.number}"/>
+<c:set var="pageSize" value="${colors.size}"/>
 <c:set var="currentId" value="${id}"/>
 
 <div class="container bg-white" style="padding: 10px; border-radius: 10px;">
-    <h1 class="text-center">Quản lý sản phẩm</h1>
-    <form:form action="/shop-app/products/search" method="get">
+    <h1 class="text-center">Quản lý màu sắc</h1>
+    <h1 class="text-center">${url}</h1>
+
+    <form:form action="/shop-app/colors/search" method="get">
         <div class="input-group mb-3 ">
             <input type="text" name="id" class="form-control" placeholder="Tìm kiếm theo tên" aria-label="Recipient's username" aria-describedby="button-addon2">
             <button class="btn btn-outline-primary" >Tìm</button>
         </div>
     </form:form>
-    <form:form action="${url}" modelAttribute="product" method="post">
+    <form:form action="${url}" modelAttribute="color" method="post">
         <div style="display: flex; justify-content: center" class="row mt-5">
             <div class="col-7">
                 <h6> Id :</h6> <form:input path="id" readonly="true" cssClass="form-control "></form:input> <br>
@@ -99,19 +62,19 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="c" items="${products.content}" varStatus="i">
+        <c:forEach var="c" items="${colors.content}" varStatus="i" >
             <tr>
                 <th scope="row">${i.index + 1}</th>
                 <td>${c.id}</td>
                 <td>${c.code}</td>
                 <td>${c.name}</td>
-                <td class="${c.status ? "text-danger" : "text-success" }">${c.status ? "Ngưng bán" : "Đang kinh doanh"}</td>
+                <td class="${c.status ? "text-danger" : "text-success" }">${c.status ? "Không dùng" : "Đang kinh doanh"}</td>
                 <td>
-                    <a href="/shop-app/products/view-update?id=${c.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/colors/view-update?id=${c.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-warning">Edit</a>
-                    <a href="/shop-app/products/detail?id=${c.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/colors/detail?id=${c.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-info">Info</a>
-                    <a href="/shop-app/products/update-status?id=${c.id}"
+                    <a href="/shop-app/colors/update-status?id=${c.id}"
                        class="btn  ${c.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${c.status ? "Update status":"Remove"  }</a>
                 </td>
             </tr>
@@ -121,15 +84,15 @@
 
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
-            <li class="page-item ${products.number == 0 ? 'disabled' : ''}">
+            <li class="page-item ${colors.number == 0 ? 'disabled' : ''}">
                 <a class="page-link" href="?page=${currentPage - 1}&size=${pageSize}&id=${currentId}">Previous</a>
             </li>
-            <c:forEach var="i" begin="0" end="${products.totalPages - 1}">
+            <c:forEach var="i" begin="0" end="${colors.totalPages - 1}">
                 <li class="page-item ${i == currentPage ? 'active' : ''}">
                     <a class="page-link" href="?page=${i}&size=${pageSize}&id=${currentId}">${i + 1}</a>
                 </li>
             </c:forEach>
-            <li class="page-item ${products.number == products.totalPages - 1 ? 'disabled' : ''}">
+            <li class="page-item ${colors.number == colors.totalPages - 1 ? 'disabled' : ''}">
                 <a class="page-link" href="?page=${currentPage + 1}&size=${pageSize}&id=${currentId}">Next</a>
             </li>
         </ul>

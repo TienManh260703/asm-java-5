@@ -33,4 +33,10 @@ public class GenCode {
         String formattedNumber = String.format("%0" + NUMBER_LENGTH + "d", randomNumber);
         return ORDER + formattedNumber;
     }
+    public static String generateCOLOR() {
+        Random random = new Random();
+        int randomNumber = random.nextInt((int) Math.pow(10, NUMBER_LENGTH));
+        String formattedNumber = String.format("%0" + NUMBER_LENGTH + "d", randomNumber);
+        return COLOR + formattedNumber;
+    }
 }
