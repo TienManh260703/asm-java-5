@@ -3,7 +3,6 @@ package com.example.shopapp.service.iplm;
 import com.example.shopapp.model.Color;
 import com.example.shopapp.repository.ColorRepository;
 import com.example.shopapp.service.IColorService;
-import com.example.shopapp.service.IProductDetailService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
@@ -31,6 +30,9 @@ public class ColorServiceIplm implements IColorService {
 
     @Override
     public void create(Color color) {
+        if(colorRepository.existsByName(color.getName())) {
+            return;
+        }
         colorRepository.save(color);
     }
 
@@ -38,6 +40,9 @@ public class ColorServiceIplm implements IColorService {
     public void update(String id, Color color) {
         Optional<Color> colorOptional = colorRepository.findById(id);
         if (colorOptional.isPresent()) {
+            if (colorRepository.existsByNameAndIdNot(color.getName(), id)) {
+                return;
+            }
             Color existingColor = colorOptional.get();
             existingColor.setName(color.getName());
             colorRepository.save(existingColor);

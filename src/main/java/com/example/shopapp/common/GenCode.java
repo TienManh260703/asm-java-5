@@ -8,10 +8,11 @@ import java.util.Random;
 public class GenCode {
 
     static int NUMBER_LENGTH = 10;
-    static String USER = "UO";
-    static String COLOR = "CL0";
-    static String ORDER = "OD0";
-    static String PRODUCT = "P";
+    static String USER = "UO_";
+    static String COLOR = "CL0_";
+    static String ORDER = "OD0_";
+    static String PRODUCT = "P_";
+    static String SIZE = "S_";
 
     public static String generateUSER() {
         Random random = new Random();
@@ -38,5 +39,12 @@ public class GenCode {
         int randomNumber = random.nextInt((int) Math.pow(10, NUMBER_LENGTH));
         String formattedNumber = String.format("%0" + NUMBER_LENGTH + "d", randomNumber);
         return COLOR + formattedNumber;
+    }
+
+    public static String generateSIZE() {
+        Random random = new Random();
+        int randomNumber = random.nextInt((int) Math.pow(10, NUMBER_LENGTH));
+        String formattedNumber = String.format("%0" + NUMBER_LENGTH + "d", randomNumber);
+        return SIZE + formattedNumber;
     }
 }

@@ -41,7 +41,6 @@ public class ProductController {
     public String createProduct(
             @Valid Product product, BindingResult result,
             Model model) {
-        model.addAttribute("id", product.getId());
         if (result.hasErrors()) {
             model.addAttribute("product", product);
             model.addAttribute("products", productService.getProductPage(PageRequest.of(0, 5)));
@@ -110,7 +109,7 @@ public class ProductController {
                          @RequestParam(value = "size", defaultValue = "5") Integer size,
                          Model model) {
 
-        model.addAttribute("url", URL +"add");
+        model.addAttribute("url", URL + "add");
         model.addAttribute("product", Product.builder().code(generatePRODUCT()).build());
         Page<Product> products = productService.search(id, PageRequest.of(page, size));
         if (products.isEmpty()) {
