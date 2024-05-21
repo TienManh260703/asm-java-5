@@ -57,8 +57,14 @@
 <c:set var="pageSize" value="${products.size}"/>
 <c:set var="currentId" value="${id}"/>
 
-<div class="container bg-white" style="padding: 10px; border-radius: 10px">
+<div class="container bg-white" style="padding: 10px; border-radius: 10px;">
     <h1 class="text-center">Quản lý sản phẩm</h1>
+    <form:form action="/shop-app/products/search" method="get">
+        <div class="input-group mb-3 ">
+            <input type="text" name="id" class="form-control" placeholder="Tìm kiếm theo tên" aria-label="Recipient's username" aria-describedby="button-addon2">
+            <button class="btn btn-outline-primary" >Tìm</button>
+        </div>
+    </form:form>
     <form:form action="${url}" modelAttribute="product" method="post">
         <div style="display: flex; justify-content: center" class="row mt-5">
             <div class="col-7">
@@ -72,14 +78,13 @@
             <div class="col-7">
                 <h6> Name :</h6> <form:input path="name" cssClass="form-control " readonly="${isDetail}"></form:input>
                 <br>
-                <form:errors path="name"></form:errors>
+                <form:errors path="name" cssStyle="color: red"></form:errors>
             </div>
-            <div class="col-7 mb-5">
+            <div class="col-7 mt-2 mb-5">
                 <button class=" btn btn-primary"  ${isDetail? "hidden" : ""}> ${isEdit ? "Update" : "Add"}</button>
             </div>
         </div>
     </form:form>
-
 
     <%--    Table --%>
     <table class="table table-striped ">
@@ -113,6 +118,7 @@
         </c:forEach>
         </tbody>
     </table>
+
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center">
             <li class="page-item ${products.number == 0 ? 'disabled' : ''}">

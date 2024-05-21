@@ -1,6 +1,7 @@
 package com.example.shopapp.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -19,6 +20,7 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String code;
+    @NotBlank(message = "Tên sản phẩm không được đẻ trống")
     String name;
     Boolean status =false;
     @OneToMany(mappedBy = "product" , fetch = FetchType.LAZY ,cascade = CascadeType.ALL)

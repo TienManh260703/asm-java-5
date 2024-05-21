@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
@@ -24,7 +25,7 @@ import static com.example.shopapp.common.GenCode.generatePRODUCT;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductController {
     ProductServiceIplm productService;
-    private static String url = "/shop-app/products/";
+    static String url = "/shop-app/products/";
 
     @GetMapping
     public String getAll(
@@ -92,7 +93,7 @@ public class ProductController {
         model.addAttribute("product", product);
         productService.updateProduct(id, product);
         model.addAttribute("id", product.getId());
-        model.addAttribute("products", productService.getProductPage(PageRequest.of(page,size)));
+        model.addAttribute("products", productService.getProductPage(PageRequest.of(page, size)));
         model.addAttribute("isDetail", true);
         model.addAttribute("url", url + "update");
         return "/products/index";
@@ -102,5 +103,21 @@ public class ProductController {
     public String delete(@RequestParam String id) {
         productService.deleted(id);
         return "redirect:/shop-app/products";
+    }
+
+    @GetMapping("search")
+    public String search(@RequestParam String id,
+                         @RequestParam(value = "page", defaultValue = "0") Integer page,
+                         @RequestParam(value = "size", defaultValue = "5") Integer size,
+                         Model model) {
+
+        model.addAttribute("url", "add");
+        model.addAttribute("product", Product.builder().code(generatePRODUCT()).build());
+        Page<Product> products = productService.search(id, PageRequest.of(page, size));
+        if (products.isEmpty()) {
+            products = productService.getProductPage(PageRequest.of(page, size));
+        }
+        model.addAttribute("products", products);
+        return "/products/index";
     }
 }

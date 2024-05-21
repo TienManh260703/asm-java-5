@@ -15,9 +15,10 @@ public interface IProductService {
     void createProduct(Product product);
 
     void updateProduct(String id, Product product);
+
     void deleted(String id);
 
-    Page<Product> getProductPage (Pageable pageable);
-
+    Page<Product> getProductPage(Pageable pageable);
+    Page<Product> search(String name , Pageable pageable);
 
 }
