@@ -53,8 +53,12 @@
         </div>
     </div>
 </nav>
+<c:set var="currentPage" value="${products.number}"/>
+<c:set var="pageSize" value="${products.size}"/>
+<c:set var="currentId" value="${id}"/>
+
 <div class="container bg-white" style="padding: 10px; border-radius: 10px">
-<h1>${url}</h1>
+    <h1 class="text-center">Quản lý sản phẩm</h1>
     <form:form action="${url}" modelAttribute="product" method="post">
         <div style="display: flex; justify-content: center" class="row mt-5">
             <div class="col-7">
@@ -66,11 +70,12 @@
                 <form:errors path="code"></form:errors>
             </div>
             <div class="col-7">
-                <h6> Name :</h6> <form:input path="name"  cssClass="form-control "></form:input> <br>
+                <h6> Name :</h6> <form:input path="name" cssClass="form-control " readonly="${isDetail}"></form:input>
+                <br>
                 <form:errors path="name"></form:errors>
             </div>
             <div class="col-7 mb-5">
-                <button class=" btn btn-primary">Save</button>
+                <button class=" btn btn-primary"  ${isDetail? "hidden" : ""}> ${isEdit ? "Update" : "Add"}</button>
             </div>
         </div>
     </form:form>
@@ -81,32 +86,51 @@
         <thead>
         <tr>
             <th scope="col">STT</th>
-            <th scope="col">Id</th>
+            <th scope="col">ID</th>
             <th scope="col">Code</th>
             <th scope="col">Name</th>
             <th scope="col">Status</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
-        <tbody >
-        <c:forEach var="p" items="${products}" varStatus="i">
-            <tr >
+        <tbody>
+        <c:forEach var="p" items="${products.content}" varStatus="i">
+            <tr>
                 <th scope="row">${i.index + 1}</th>
                 <td>${p.id}</td>
                 <td>${p.code}</td>
                 <td>${p.name}</td>
                 <td class="${p.status ? "text-danger" : "text-success" }">${p.status ? "Ngưng bán" : "Đang kinh doanh"}</td>
                 <td>
-                    <a href="/shop-app/products/view-update?id=${p.id}" class="btn btn-warning">Edit</a>
-                    <a class="btn btn-info">Info</a>
-                    <a  href="/shop-app/products/update-status?id=${p.id}" class="btn btn-outline-danger " ${p.status ? "hidden" : ""} >Remove</a>
-                    <a  href="/shop-app/products/update-status?id=${p.id}" class="btn  btn-outline-warning" ${!p.status ? "hidden" : ""} >Update status</a>
+                    <a href="/shop-app/products/view-update?id=${p.id}&page=${currentPage}&size=${currentSize}"
+                       class="btn btn-warning">Edit</a>
+                    <a href="/shop-app/products/detail?id=${p.id}&page=${currentPage}&size=${currentSize}"
+                       class="btn btn-info">Info</a>
+                    <a href="/shop-app/products/update-status?id=${p.id}"
+                       class="btn  ${p.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${p.status ? "Update status":"Remove"  }</a>
                 </td>
             </tr>
         </c:forEach>
-
         </tbody>
     </table>
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item ${products.number == 0 ? 'disabled' : ''}">
+                <a class="page-link" href="?page=${currentPage - 1}&size=${pageSize}&id=${currentId}">Previous</a>
+            </li>
+            <c:forEach var="i" begin="0" end="${products.totalPages - 1}">
+                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                    <a class="page-link" href="?page=${i}&size=${pageSize}&id=${currentId}">${i + 1}</a>
+                </li>
+            </c:forEach>
+            <li class="page-item ${products.number == products.totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" href="?page=${currentPage + 1}&size=${pageSize}&id=${currentId}">Next</a>
+            </li>
+        </ul>
+    </nav>
+
+
+
 </div>
 </body>
 </html>

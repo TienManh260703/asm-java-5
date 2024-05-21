@@ -6,8 +6,10 @@ import com.example.shopapp.service.IProductService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
-import org.springframework.stereotype.Service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,5 +60,10 @@ public class ProductServiceIplm implements IProductService {
             product.setStatus(!product.getStatus());
             productRepository.save(product);
         }
+    }
+
+    @Override
+    public Page<Product> getProductPage(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 }
