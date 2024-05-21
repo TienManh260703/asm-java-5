@@ -15,3 +15,9 @@ spring:
     hibernate:
       ddl-auto: update
       format_sql : true
+
+
+
+api:
+  prefix : shop-app
+
