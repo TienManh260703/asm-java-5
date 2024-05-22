@@ -23,6 +23,7 @@
     <h1 class="text-center">${url}</h1>
 
     <form:form action="/shop-app/products/products-detail/search" method="get">
+
         <div class="input-group mb-3 ">
             <input type="text" name="name" class="form-control" placeholder="Tìm kiếm theo tên"
                    aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -31,36 +32,44 @@
     </form:form>
     <form:form action="${url}" modelAttribute="productDetail" method="post">
         <div style="display: flex; justify-content: center" class="row mt-5">
-<%--            <div class="col-6">--%>
-<%--                <h6> Id :</h6> <form:input path="id" readonly="true" cssClass="form-control "></form:input> <br>--%>
-<%--                <form:errors path="id"></form:errors>--%>
-<%--            </div>--%>
             <div class="col-6">
                 <h6> Code :</h6> <form:input path="code" readonly="true" cssClass="form-control "></form:input> <br>
                 <form:errors path="code"></form:errors>
             </div>
             <div class="col-6">
-                <h6> Sản phẩm :</h6> <form:select path="product.id" cssClass="form-control"><br>
-                <form:options items="${products}" itemLabel="name" itemValue="id"></form:options>
-            </form:select>
+                <h6> Sản phẩm :</h6>
+                <select name="productId" class="form-control" ${isDetail ? "disabled" : ""}>
+                    <c:forEach items="${products}" var="p">
+                        <option value="${p.id}" ${p.id == pId ? "selected" :""} >${p.name}</option>
+                    </c:forEach>
+                </select>
             </div>
             <div class="col-6">
-                <h6> Màu sắc :</h6> <form:select path="color.id" cssClass="form-control"><br>
-                <form:options items="${colors}" itemLabel="name" itemValue="id"></form:options>
-            </form:select>
+                <h6> Màu sắc :</h6>
+                <select name="colorId" class="form-control" ${isDetail ? "disabled" : ""}>
+                    <c:forEach items="${colors}" var="s">
+                        <option value="${s.id}" ${s.id == cId ? "selected" :""} >${s.name}</option>
+                    </c:forEach>
+                </select>
+            </div>
+
+            <div class="col-6">
+                <h6>Kích thước :</h6>
+                <select name="sizeId" class="form-control" ${isDetail ? "disabled" : ""} >
+                    <c:forEach items="${sizes}" var="s">
+                        <option value="${s.id}" ${s.id == sId ? "selected" :""} >${s.name}</option>
+                    </c:forEach>
+                </select>
             </div>
             <div class="col-6">
-                <h6> Kích thước :</h6> <form:select path="size.id" cssClass="form-control"><br>
-                <form:options items="${sizes}" itemLabel="name" itemValue="id" ></form:options>
-            </form:select>
+                <h6> Số lượng :</h6>
+                <form:input path="quantity" cssClass="form-control " readonly="${isDetail}"></form:input> <br>
+                <form:errors path="quantity" cssClass="text-danger"></form:errors>
             </div>
             <div class="col-6">
-                <h6> Số lượng :</h6> <form:input path="quantity"   cssClass="form-control "></form:input> <br>
-                <form:errors path="quantity"></form:errors>
-            </div>
-            <div class="col-6">
-                <h6> Đơn giá :</h6> <form:input path="price"  cssClass="form-control "></form:input> <br>
-                <form:errors path="price"></form:errors>
+                <h6> Đơn giá :</h6>
+                <form:input path="price" cssClass="form-control " readonly="${isDetail}"></form:input> <br>
+                <form:errors path="price" cssClass="text-danger"></form:errors>
             </div>
             <div class="col-1 mt-2 mb-5">
                 <button class=" btn btn-primary"  ${isDetail? "hidden" : ""}> ${isEdit ? "Update" : "Add"}</button>
@@ -76,6 +85,10 @@
             <th scope="col">ID</th>
             <th scope="col">Code</th>
             <th scope="col">Name</th>
+            <th scope="col">Color</th>
+            <th scope="col">Size</th>
+            <%--            <th scope="col">Quantity</th>--%>
+            <%--            <th scope="col">Price</th>--%>
             <th scope="col">Status</th>
             <th scope="col">Action</th>
         </tr>
@@ -87,14 +100,18 @@
                 <td>${pd.id}</td>
                 <td>${pd.code}</td>
                 <td>${pd.name}</td>
-                <td class="${pd.status ? "text-danger" : "text-success" }">${pd.status ? "Không dùng" : "Đang kinh doanh"}</td>
+                    <%--                <td>${pd.sizeName}</td>--%>
+                    <%--                <td>${pd.colorName}</td>--%>
+                <td>${pd.quantity} </td>
+                <td>${pd.price} VND</td>
+                <td class="${pd.deleted ? "text-danger" : "text-success" }">${pd.deleted ? "Tạm ngừng" : "Đang kinh doanh"}</td>
                 <td>
                     <a href="/shop-app/products/products-detail/view-update?id=${pd.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-warning">Edit</a>
                     <a href="/shop-app/products/products-detail/detail?id=${pd.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-info">Info</a>
                     <a href="/shop-app/products/products-detail/update-status?id=${pd.id}"
-                       class="btn  ${pd.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${pd.status ? "Update status":"Remove"  }</a>
+                       class="btn  ${pd.deleted ? 'btn-outline-success' : 'btn-outline-danger'} "> ${pd.deleted ? "Update status":"Remove"  } </a>
                 </td>
             </tr>
         </c:forEach>

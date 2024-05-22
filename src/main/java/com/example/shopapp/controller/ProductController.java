@@ -59,6 +59,7 @@ public class ProductController {
             model.addAttribute("products", productService.getProducts());
             return "/products/index";
         }
+        System.err.println(id);
         productService.updateProduct(id, product);
         model.addAttribute("id", product.getId());
         model.addAttribute("url", URL + "add");

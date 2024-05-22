@@ -1,5 +1,6 @@
 package com.example.shopapp.service.iplm;
 
+import com.example.shopapp.dto.request.ProductDetailRequest;
 import com.example.shopapp.dto.response.ProductDetailResponse;
 import com.example.shopapp.mapper.ProductDetailMapper;
 import com.example.shopapp.model.ProductDetail;
@@ -26,7 +27,7 @@ public class ProductDetailServiceIplm implements IProductDetailService {
     @Override
     public Page<ProductDetailResponse> getProductsDetail(Pageable pageable) {
         return productDetailRepository
-                .findByDeletedFalse(pageable)
+                .findAll(pageable)
                 .map(productDetail ->
                         productDetailMapper.toProductDetailResponse(productDetail)
                 );
@@ -43,28 +44,28 @@ public class ProductDetailServiceIplm implements IProductDetailService {
     }
 
     @Override
-    public void createProductDetail(ProductDetail productDetail) {
-        productDetailRepository.save(productDetail);
+    public void createProductDetail(ProductDetailRequest request) {
+        productDetailRepository.save(productDetailMapper.toProductDetail(request));
     }
 
     @Override
-    public void updateProductDetail(String id, ProductDetail productDetail) {
+    public void updateProductDetail(String id, ProductDetailRequest request) {
         Optional<ProductDetail> productDetailOptional = productDetailRepository.findById(id);
         if (productDetailOptional.isPresent()) {
             ProductDetail existingProductDetail = productDetailOptional.get();
-            existingProductDetail.setProduct(productDetail.getProduct());
-            existingProductDetail.setColor(productDetail.getColor());
-            existingProductDetail.setSize(productDetail.getSize());
-            existingProductDetail.setQuantity(productDetail.getQuantity());
-            existingProductDetail.setPrice(productDetail.getPrice());
-//            existingProductDetail.setStatus(productDetail.getStatus());
+           productDetailMapper.toUpdate(existingProductDetail, request);
             productDetailRepository.save(existingProductDetail);
         }
     }
 
     @Override
     public void deleted(String id) {
-
+        Optional<ProductDetail> productDetailOptional = productDetailRepository.findById(id);
+        if (productDetailOptional.isPresent()) {
+            ProductDetail existingProductDetail = productDetailOptional.get();
+            existingProductDetail.setDeleted(!existingProductDetail.getDeleted());
+            productDetailRepository.save(existingProductDetail);
+        }
     }
 
     @Override

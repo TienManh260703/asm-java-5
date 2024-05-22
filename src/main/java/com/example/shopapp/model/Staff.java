@@ -19,6 +19,7 @@ public class Staff {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String code;
+    String name;
     @Column(name = "user_name")
     String userName;
     String password;
