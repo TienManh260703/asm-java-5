@@ -16,4 +16,10 @@ public interface IStaffService {
     Page<Staff> search(String name, Pageable pageable);
 
     Optional<Staff> findByIdAndStatusTrue(String id);
+
+
+    void create(Staff staff);
+
+    void update(String id, Staff staff);
+    void  deleted(String id);
 }

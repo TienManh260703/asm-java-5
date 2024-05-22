@@ -18,5 +18,7 @@ public interface ColorRepository extends JpaRepository<Color, String> {
     boolean existsByNameAndIdNot(String name, String id);
 
     Page<Color> findByNameContainingIgnoreCase(String name, Pageable pageable);
+
+
     List<Color> findByStatusFalse();
 }

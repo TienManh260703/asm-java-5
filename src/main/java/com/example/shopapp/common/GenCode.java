@@ -14,6 +14,7 @@ public class GenCode {
     static String PRODUCT = "P_";
     static String PRODUCT_DETAIL = "PD_";
     static String SIZE = "S_";
+    static String STAFF = "ST_";
 
     public static String generateUSER() {
         Random random = new Random();
@@ -53,5 +54,11 @@ public class GenCode {
         int randomNumber = random.nextInt((int) Math.pow(10, NUMBER_LENGTH));
         String formattedNumber = String.format("%0" + NUMBER_LENGTH + "d", randomNumber);
         return PRODUCT_DETAIL + formattedNumber;
+    }
+    public static String generateSTAFF() {
+        Random random = new Random();
+        int randomNumber = random.nextInt((int) Math.pow(10, NUMBER_LENGTH));
+        String formattedNumber = String.format("%0" + NUMBER_LENGTH + "d", randomNumber);
+        return STAFF + formattedNumber;
     }
 }

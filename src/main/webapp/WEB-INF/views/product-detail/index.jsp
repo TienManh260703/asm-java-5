@@ -85,8 +85,8 @@
             <th scope="col">ID</th>
             <th scope="col">Code</th>
             <th scope="col">Name</th>
-            <th scope="col">Color</th>
-            <th scope="col">Size</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
             <%--            <th scope="col">Quantity</th>--%>
             <%--            <th scope="col">Price</th>--%>
             <th scope="col">Status</th>
@@ -94,24 +94,24 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="pd" items="${productsDetail.content}" varStatus="i">
+        <c:forEach var="st" items="${productsDetail.content}" varStatus="i">
             <tr>
                 <th scope="row">${i.index + 1}</th>
-                <td>${pd.id}</td>
-                <td>${pd.code}</td>
-                <td>${pd.name}</td>
+                <td>${st.id}</td>
+                <td>${st.code}</td>
+                <td>${st.name}</td>
                     <%--                <td>${pd.sizeName}</td>--%>
                     <%--                <td>${pd.colorName}</td>--%>
-                <td>${pd.quantity} </td>
-                <td>${pd.price} VND</td>
-                <td class="${pd.deleted ? "text-danger" : "text-success" }">${pd.deleted ? "Tạm ngừng" : "Đang kinh doanh"}</td>
+                <td>${st.quantity} </td>
+                <td>${st.price} VND</td>
+                <td class="${st.deleted ? "text-danger" : "text-success" }">${st.deleted ? "Tạm ngừng" : "Đang kinh doanh"}</td>
                 <td>
-                    <a href="/shop-app/products/products-detail/view-update?id=${pd.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/products/products-detail/view-update?id=${st.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-warning">Edit</a>
-                    <a href="/shop-app/products/products-detail/detail?id=${pd.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/products/products-detail/detail?id=${st.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-info">Info</a>
-                    <a href="/shop-app/products/products-detail/update-status?id=${pd.id}"
-                       class="btn  ${pd.deleted ? 'btn-outline-success' : 'btn-outline-danger'} "> ${pd.deleted ? "Update status":"Remove"  } </a>
+                    <a href="/shop-app/products/products-detail/update-status?id=${st.id}"
+                       class="btn  ${st.deleted ? 'btn-outline-success' : 'btn-outline-danger'} "> ${st.deleted ? "Update status":"Remove"  } </a>
                 </td>
             </tr>
         </c:forEach>

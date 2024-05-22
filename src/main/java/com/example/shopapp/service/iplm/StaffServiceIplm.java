@@ -2,7 +2,6 @@ package com.example.shopapp.service.iplm;
 
 import com.example.shopapp.model.Staff;
 import com.example.shopapp.repository.StaffRepository;
-import com.example.shopapp.service.IColorService;
 import com.example.shopapp.service.IStaffService;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,26 +20,57 @@ public class StaffServiceIplm implements IStaffService {
 
     @Override
     public boolean existsByUserName(String userName) {
-        return false;
+        return staffRepository.existsByUserName(userName);
     }
 
     @Override
     public boolean existsByUserNameAndIdNot(String name, String id) {
-        return false;
+        return staffRepository.existsByUserNameAndIdNot(name, id);
     }
 
     @Override
     public Page<Staff> getStaffs(Pageable pageable) {
-        return null;
+        return staffRepository.findAll(pageable);
     }
 
     @Override
     public Page<Staff> search(String name, Pageable pageable) {
-        return null;
+        return staffRepository.findByNameContainingIgnoreCase(name, pageable);
     }
 
     @Override
     public Optional<Staff> findByIdAndStatusTrue(String id) {
-        return Optional.empty();
+        return staffRepository.findByIdAndStatusTrue(id);
+    }
+
+    @Override
+    public void create(Staff staff) {
+        // PasswordEncoder
+        staffRepository.save(staff);
+    }
+
+    @Override
+    public void update(String id, Staff staff) {
+        Optional<Staff> staffOptional = staffRepository.findById(id);
+        if (staffOptional.isPresent()) {
+            Staff existingStaff = staffOptional.get();
+            existingStaff.setName(staff.getName());
+            existingStaff.setUserName(staff.getUserName());
+            // PasswordEncoder ->
+            existingStaff.setPassword(staff.getPassword());
+            existingStaff.setRole(staff.getRole());
+
+            staffRepository.save(existingStaff);
+        }
+    }
+
+    @Override
+    public void deleted(String id) {
+        Optional<Staff> staffOptional = staffRepository.findById(id);
+        if (staffOptional.isPresent()) {
+            Staff existingStaff = staffOptional.get();
+            existingStaff.setStatus(!existingStaff.getStatus());
+            staffRepository.save(existingStaff);
+        }
     }
 }
