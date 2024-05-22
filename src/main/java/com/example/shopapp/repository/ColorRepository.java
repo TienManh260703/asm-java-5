@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface ColorRepository extends JpaRepository<Color, String> {
     boolean existsByName(String name);
@@ -16,4 +18,5 @@ public interface ColorRepository extends JpaRepository<Color, String> {
     boolean existsByNameAndIdNot(String name, String id);
 
     Page<Color> findByNameContainingIgnoreCase(String name, Pageable pageable);
+    List<Color> findByStatusFalse();
 }

@@ -13,11 +13,11 @@ public class ProductDetailResponse {
     String id;
     String code ;
     String name;
-    String sizeName;
+    Float sizeName;
     String colorName;
     String productName;
     Integer quantity;
     Float price;
     String status;
-    String deleted;
+    Boolean deleted;
 }

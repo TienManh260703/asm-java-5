@@ -22,7 +22,7 @@ public class Size {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String code;
-    @NotNull(message = "Tên không được để trống")
+    @NotNull(message = "Tên size không được để trống")
     @DecimalMin(value = "0.0", inclusive = false, message = "Tên size hơn >=0.0")
     private Float name;
     Boolean status =false;

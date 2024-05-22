@@ -70,4 +70,9 @@ public class ProductServiceIplm implements IProductService {
     public Page<Product> search(String name, Pageable pageable) {
         return productRepository.findByNameContainingIgnoreCase(name, pageable);
     }
+
+    @Override
+    public List<Product> findByStatusFalse() {
+        return productRepository.findByStatusFalse();
+    }
 }

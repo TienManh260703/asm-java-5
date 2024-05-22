@@ -12,6 +12,7 @@ public class GenCode {
     static String COLOR = "CL0_";
     static String ORDER = "OD0_";
     static String PRODUCT = "P_";
+    static String PRODUCT_DETAIL = "PD_";
     static String SIZE = "S_";
 
     public static String generateUSER() {
@@ -46,5 +47,11 @@ public class GenCode {
         int randomNumber = random.nextInt((int) Math.pow(10, NUMBER_LENGTH));
         String formattedNumber = String.format("%0" + NUMBER_LENGTH + "d", randomNumber);
         return SIZE + formattedNumber;
+    }
+    public static String generatePRODUCT_DETAIL() {
+        Random random = new Random();
+        int randomNumber = random.nextInt((int) Math.pow(10, NUMBER_LENGTH));
+        String formattedNumber = String.format("%0" + NUMBER_LENGTH + "d", randomNumber);
+        return PRODUCT_DETAIL + formattedNumber;
     }
 }

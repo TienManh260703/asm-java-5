@@ -6,10 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public interface SizeRepository extends JpaRepository<Size, String> {
     boolean existsByName(Float name);
     boolean existsByNameAndIdNot(Float name, String id);
     Page<Size> findAll(Pageable pageable);
     Page<Size> findSizeByName(Float name , Pageable pageable);
+    List<Size> findByStatusFalse();
 }

@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -72,5 +73,10 @@ public class SizeServiceIplm implements ISizeService {
     @Override
     public boolean existsByName(Float name) {
         return sizeRepository.existsByName(name);
+    }
+
+    @Override
+    public List<Size> findByStatusFalse() {
+        return sizeRepository.findByStatusFalse();
     }
 }

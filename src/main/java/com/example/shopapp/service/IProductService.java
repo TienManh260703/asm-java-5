@@ -20,5 +20,6 @@ public interface IProductService {
 
     Page<Product> getProductPage(Pageable pageable);
     Page<Product> search(String name , Pageable pageable);
+    List<Product> findByStatusFalse();
 
 }
