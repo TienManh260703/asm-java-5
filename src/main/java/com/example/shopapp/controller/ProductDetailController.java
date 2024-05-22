@@ -17,6 +17,7 @@ import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,43 +38,36 @@ public class ProductDetailController {
     SizeServiceIplm sizeService;
     ProductDetailServiceIplm productDetailService;
     String url = "/shop-app/products/products-detail/";
+    static String saveProductId = "";
 
-//    @GetMapping("test")
-//    public String index() {
-//        ProductDetailRequest productDetail = new ProductDetailRequest();
-//        productDetail.setProduct(Product.builder().id("62d43f69-1d7e-4408-bb8c-c859459cad43").build());
-//        productDetail.setColor(Color.builder().id("34e9d7a2-b770-4dbb-a07d-6e629984c947").build());
-//        productDetail.setSize(Size.builder().id("24f5193f-5cf9-4fa9-a0a7-2fe064cc91b1").build());
-////        productDetail.setStatus(EnumStatusProduct.ALMOST_OUT_OF_STOCK);
-//        productDetail.setQuantity(10);
-//        productDetail.setPrice(1234f);
-//        productDetailService.createProductDetail(productDetail);
-//        return "/test/index";
-//    }
 
     @GetMapping
     public String index(
+            @RequestParam(value = "productIdParam", defaultValue = "") String productId,
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "5") Integer size,
             Model model) {
         initSelectBox(model);
+        saveProductId = productId;
         ProductDetailRequest productDetail = new ProductDetailRequest();
         productDetail.setCode(GenCode.generatePRODUCT_DETAIL());
+        model.addAttribute("productId", productId);
         model.addAttribute("productDetail", productDetail);
-        model.addAttribute("productsDetail", productDetailService.getProductsDetail(PageRequest.of(page, size)));
+        model.addAttribute("productsDetail", productDetailService.findAllByProductId(productId, PageRequest.of(page, size)));
         model.addAttribute("url", url + "add");
         return "/product-detail/index";
     }
 
     @PostMapping("add")
-    public String create(@Valid @ModelAttribute("productDetail") ProductDetailRequest request, BindingResult result, Model model) {
+    public String create(
+            @Valid @ModelAttribute("productDetail") ProductDetailRequest request, BindingResult result, Model model) {
         if (result.hasErrors()) {
             model.addAttribute("productDetail", request);
-            model.addAttribute("productsDetail", productDetailService.getProductsDetail(PageRequest.of(0, 5)));
+            model.addAttribute("productsDetail", productDetailService.findAllByProductId(saveProductId, PageRequest.of(0, 5)));
             return "/product-detail/index";
         }
         productDetailService.createProductDetail(request);
-        return "redirect:/shop-app/products/products-detail";
+        return "redirect:/shop-app/products/products-detail?productIdParam=" + saveProductId;
     }
 
     @PostMapping("update")
@@ -84,11 +78,11 @@ public class ProductDetailController {
             Model model) {
         if (result.hasErrors()) {
             model.addAttribute("productDetail", request);
-            model.addAttribute("productsDetail", productDetailService.getProductsDetail(PageRequest.of(0, 5)));
+            model.addAttribute("productsDetail", productDetailService.findAllByProductId(saveProductId, PageRequest.of(0, 5)));
             return "/product-detail/index";
         }
         productDetailService.updateProductDetail(id, request);
-        return "redirect:/shop-app/products/products-detail";
+        return "redirect:/shop-app/products/products-detail?productIdParam=" + saveProductId;
     }
 
     @GetMapping("view-update")
@@ -103,8 +97,8 @@ public class ProductDetailController {
         model.addAttribute("isEdit", true);
         model.addAttribute("productDetail", response);
         model.addAttribute("id", id);
-        model.addAttribute("url", url + "update?id="+id);
-        model.addAttribute("productsDetail", productDetailService.getProductsDetail(PageRequest.of(page, size)));
+        model.addAttribute("url", url + "update?id=" + id + "&productIdParam=" + saveProductId);
+        model.addAttribute("productsDetail", productDetailService.findAllByProductId(saveProductId, PageRequest.of(page, size)));
         return "/product-detail/index";
     }
 
@@ -120,17 +114,59 @@ public class ProductDetailController {
         model.addAttribute("isDetail", true);
         model.addAttribute("productDetail", response);
         model.addAttribute("url", url + "update");
-        model.addAttribute("productsDetail", productDetailService.getProductsDetail(PageRequest.of(page, size)));
+        model.addAttribute("productsDetail", productDetailService.findAllByProductId(saveProductId, PageRequest.of(page, size)));
+        System.err.println("sssssssss :" + saveProductId);
         return "/product-detail/index";
     }
 
     @GetMapping("update-status")
     public String delete(@RequestParam String id) {
         productDetailService.deleted(id);
-        return "redirect:/shop-app/products/products-detail";
+        return "redirect:/shop-app/products/products-detail?productIdParam=" + saveProductId;
     }
 
+    @GetMapping("search")
+    public String search(
+            @RequestParam(value = "min" , defaultValue = "0") Float min,
+            @RequestParam(value = "max", defaultValue = "999999999999999999999") Float max,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "5") Integer size,
+            Model model) {
 
+        Page<ProductDetailResponse> responses = productDetailService
+                .findByPriceRange(
+                        saveProductId, min, max, PageRequest.of(page, size));
+        System.err.println("sie :"+responses.getTotalPages());
+        if (responses.isEmpty()) {
+            responses = productDetailService.findAllByProductId(saveProductId, PageRequest.of(page, size));
+        }
+        initSelectBox(model);
+        ProductDetailRequest productDetail = new ProductDetailRequest();
+        productDetail.setCode(GenCode.generatePRODUCT_DETAIL());
+        model.addAttribute("productDetail", productDetail);
+        model.addAttribute("productsDetail", responses);
+        model.addAttribute("url", url + "add");
+        return "/product-detail/index";
+    }
+
+    // Bỏ
+    @GetMapping("-")
+    public String getProductsDetailByProductId(
+            @RequestParam(value = "productIdParam") String productId,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "5") Integer size,
+            Model model) {
+        saveProductId = productId;
+        initSelectBox(model);
+        ProductDetailRequest productDetail = new ProductDetailRequest();
+        productDetail.setCode(GenCode.generatePRODUCT_DETAIL());
+        model.addAttribute("productDetail", productDetail);
+        model.addAttribute("productsDetail", productDetailService.findAllByProductId(productId, PageRequest.of(page, size)));
+        model.addAttribute("url", url + "add");
+        return "/product-detail/index";
+    }
+
+    /// Bỏ
     @ModelAttribute("colors")
     public List<Color> getColors() {
         List<Color> colors = colorService.findByStatusFalse();
@@ -149,7 +185,9 @@ public class ProductDetailController {
         return sizes;
     }
 
+    ///
     private void initSelectBox(Model model) {
+        model.addAttribute("productId", saveProductId);
         model.addAttribute("products", productService.findByStatusFalse());
         model.addAttribute("colors", colorService.findByStatusFalse());
         model.addAttribute("sizes", sizeService.findByStatusFalse());

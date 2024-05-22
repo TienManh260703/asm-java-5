@@ -17,19 +17,77 @@
 <c:set var="currentPage" value="${productsDetail.number}"/>
 <c:set var="pageSize" value="${productsDetail.size}"/>
 <c:set var="currentId" value="${id}"/>
-
+<c:set var="productIdParam" value="${productId}"/>
 <div class="container bg-white" style="padding: 10px; border-radius: 10px;">
     <h1 class="text-center">Quản lý chi tiết sản phẩm</h1>
     <h1 class="text-center">${url}</h1>
-
     <form:form action="/shop-app/products/products-detail/search" method="get">
 
         <div class="input-group mb-3 ">
-            <input type="text" name="name" class="form-control" placeholder="Tìm kiếm theo tên"
-                   aria-label="Recipient's username" aria-describedby="button-addon2">
-            <button class="btn btn-outline-primary">Tìm</button>
+            <input type="text" name="min" class="form-control" placeholder="Giá min">
+            <input type="text" name="max" class="form-control" placeholder="Giá max">
+            <button class="btn btn-outline-primary">Lọc</button>
         </div>
     </form:form>
+<a href="/shop-app/products" class="btn btn-primary">Quay lại</a>
+
+    <%--    Table --%>
+    <table class="table table-striped ">
+        <thead>
+        <tr>
+            <th scope="col">STT</th>
+            <th scope="col">ID</th>
+            <th scope="col">Code</th>
+            <th scope="col">Name</th>
+            <th scope="col">Quantity</th>
+            <th scope="col">Price</th>
+            <%--            <th scope="col">Quantity</th>--%>
+            <%--            <th scope="col">Price</th>--%>
+            <th scope="col">Status</th>
+            <th scope="col">Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <c:forEach var="st" items="${productsDetail.content}" varStatus="i">
+            <tr>
+                <th scope="row">${i.index + 1}</th>
+                <td>${st.id}</td>
+                <td>${st.code}</td>
+                <td>${st.name}</td>
+                    <%--                <td>${pd.sizeName}</td>--%>
+                    <%--                <td>${pd.colorName}</td>--%>
+                <td>${st.quantity} </td>
+                <td>${st.price} VND</td>
+                <td class="${st.deleted ? "text-danger" : "text-success" }">${st.deleted ? "Tạm ngừng" : "Đang kinh doanh"}</td>
+                <td>
+                    <a href="/shop-app/products/products-detail/view-update?id=${st.id}&page=${currentPage}&size=${currentSize}"
+                       class="btn btn-warning">Edit</a>
+                    <a href="/shop-app/products/products-detail/detail?id=${st.id}&page=${currentPage}&size=${currentSize}"
+                       class="btn btn-info">Info</a>
+                    <a href="/shop-app/products/products-detail/update-status?id=${st.id}"
+                       class="btn  ${st.deleted ? 'btn-outline-success' : 'btn-outline-danger'} "> ${st.deleted ? "Update status":"Remove"  } </a>
+                </td>
+            </tr>
+        </c:forEach>
+        </tbody>
+    </table>
+
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item ${productsDetail.number == 0 ? 'disabled' : ''}">
+                <a class="page-link" href="?productIdParam=${productId}&page=${currentPage - 1}&size=${pageSize}&id=${currentId}">Previous</a>
+            </li>
+            <c:forEach var="i" begin="0" end="${productsDetail.totalPages <=0 ? 1 :productsDetail.totalPages - 1}">
+                <li class="page-item ${i == currentPage ? 'active' : ''}">
+                    <a class="page-link" href="?productIdParam=${productId}&page=${i}&size=${pageSize}&id=${currentId}">${i + 1}</a>
+                </li>
+            </c:forEach>
+            <li class="page-item ${productsDetail.number == productsDetail.totalPages - 1 ? 'disabled' : ''}">
+                <a class="page-link" href="?productIdParam=${productId}&page=${currentPage + 1}&size=${pageSize}&id=${currentId}">Next</a>
+            </li>
+        </ul>
+    </nav>
+<%--    --%>
     <form:form action="${url}" modelAttribute="productDetail" method="post">
         <div style="display: flex; justify-content: center" class="row mt-5">
             <div class="col-6">
@@ -76,63 +134,6 @@
             </div>
         </div>
     </form:form>
-
-    <%--    Table --%>
-    <table class="table table-striped ">
-        <thead>
-        <tr>
-            <th scope="col">STT</th>
-            <th scope="col">ID</th>
-            <th scope="col">Code</th>
-            <th scope="col">Name</th>
-            <th scope="col">Quantity</th>
-            <th scope="col">Price</th>
-            <%--            <th scope="col">Quantity</th>--%>
-            <%--            <th scope="col">Price</th>--%>
-            <th scope="col">Status</th>
-            <th scope="col">Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="st" items="${productsDetail.content}" varStatus="i">
-            <tr>
-                <th scope="row">${i.index + 1}</th>
-                <td>${st.id}</td>
-                <td>${st.code}</td>
-                <td>${st.name}</td>
-                    <%--                <td>${pd.sizeName}</td>--%>
-                    <%--                <td>${pd.colorName}</td>--%>
-                <td>${st.quantity} </td>
-                <td>${st.price} VND</td>
-                <td class="${st.deleted ? "text-danger" : "text-success" }">${st.deleted ? "Tạm ngừng" : "Đang kinh doanh"}</td>
-                <td>
-                    <a href="/shop-app/products/products-detail/view-update?id=${st.id}&page=${currentPage}&size=${currentSize}"
-                       class="btn btn-warning">Edit</a>
-                    <a href="/shop-app/products/products-detail/detail?id=${st.id}&page=${currentPage}&size=${currentSize}"
-                       class="btn btn-info">Info</a>
-                    <a href="/shop-app/products/products-detail/update-status?id=${st.id}"
-                       class="btn  ${st.deleted ? 'btn-outline-success' : 'btn-outline-danger'} "> ${st.deleted ? "Update status":"Remove"  } </a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-
-    <nav aria-label="Page navigation">
-        <ul class="pagination justify-content-center">
-            <li class="page-item ${productsDetail.number == 0 ? 'disabled' : ''}">
-                <a class="page-link" href="?page=${currentPage - 1}&size=${pageSize}&id=${currentId}">Previous</a>
-            </li>
-            <c:forEach var="i" begin="0" end="${productsDetail.totalPages - 1}">
-                <li class="page-item ${i == currentPage ? 'active' : ''}">
-                    <a class="page-link" href="?page=${i}&size=${pageSize}&id=${currentId}">${i + 1}</a>
-                </li>
-            </c:forEach>
-            <li class="page-item ${productsDetail.number == productsDetail.totalPages - 1 ? 'disabled' : ''}">
-                <a class="page-link" href="?page=${currentPage + 1}&size=${pageSize}&id=${currentId}">Next</a>
-            </li>
-        </ul>
-    </nav>
 </div>
 </body>
 </html>

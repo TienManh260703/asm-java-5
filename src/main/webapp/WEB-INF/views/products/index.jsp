@@ -109,7 +109,7 @@
                 <td>
                     <a href="/shop-app/products/view-update?id=${st.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-warning">Edit</a>
-                    <a href="/shop-app/products/detail?id=${st.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/products/products-detail?productIdParam=${st.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-info">Info</a>
                     <a href="/shop-app/products/update-status?id=${st.id}"
                        class="btn  ${st.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${st.status ? "Update status":"Remove"  }</a>

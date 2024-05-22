@@ -4,13 +4,16 @@ import com.example.shopapp.common.GenCode;
 import com.example.shopapp.enums.Role;
 import com.example.shopapp.model.Staff;
 import com.example.shopapp.service.iplm.StaffServiceIplm;
+import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class StaffController {
 
     StaffServiceIplm staffService;
+
     String url = "/shop-app/staffs/";
 
     @GetMapping("fake")
@@ -35,11 +39,10 @@ public class StaffController {
                 .password("123456789")
                 .role(Role.EMPLOYEE)
                 .build();
-    if(staffService.existsByUserName(staff.getUserName())) {
-          return "/test/index";
-    }
-      staffService.create(staff);
-
+        if (staffService.existsByUserName(staff.getUserName())) {
+            return "/test/index";
+        }
+        staffService.create(staff);
         return "/test/index";
     }
 
@@ -51,7 +54,21 @@ public class StaffController {
         model.addAttribute("staff", Staff.builder().code(GenCode.generateSTAFF()).build());
         model.addAttribute("staffs", staffService.getStaffs(PageRequest.of(page, size)));
         model.addAttribute("url", url + "add");
-
         return "/staffs/index";
+    }
+
+    @PostMapping("add")
+    public String create(@Valid Staff staff, BindingResult result, Model model) {
+
+        if (result.hasErrors() || staffService.existsByUserName(staff.getUserName())) {
+            if (staffService.existsByUserName(staff.getUserName())) {
+                model.addAttribute("message", "Tên đăng nhập đã tồn tại");
+            }
+            model.addAttribute("staff", Staff.builder().code(GenCode.generateSTAFF()).build());
+            model.addAttribute("staffs", staffService.getStaffs(PageRequest.of(0, 5)));
+            model.addAttribute("url", url + "add");
+            return "/staffs/index";
+        }
+        return "redirect:/shop-app/staffs/";
     }
 }

@@ -45,6 +45,12 @@
                 <form:errors path="name" cssStyle="color: red"></form:errors>
                 <p class="text-danger">${message}</p>
             </div>
+            <div class="col-7">
+                <h6> user Name :</h6> <form:input path="userName" cssClass="form-control " readonly="${isDetail}"></form:input>
+                <br>
+                <form:errors path="userName" cssStyle="color: red"></form:errors>
+                <p class="text-danger">${message}</p>
+            </div>
             <div class="col-7 mt-2 mb-5">
                 <button class=" btn btn-primary"  ${isDetail? "hidden" : ""}> ${isEdit ? "Update" : "Add"}</button>
             </div>

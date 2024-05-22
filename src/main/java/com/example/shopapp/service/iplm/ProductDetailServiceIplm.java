@@ -13,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -53,7 +54,7 @@ public class ProductDetailServiceIplm implements IProductDetailService {
         Optional<ProductDetail> productDetailOptional = productDetailRepository.findById(id);
         if (productDetailOptional.isPresent()) {
             ProductDetail existingProductDetail = productDetailOptional.get();
-           productDetailMapper.toUpdate(existingProductDetail, request);
+            productDetailMapper.toUpdate(existingProductDetail, request);
             productDetailRepository.save(existingProductDetail);
         }
     }
@@ -72,4 +73,27 @@ public class ProductDetailServiceIplm implements IProductDetailService {
     public Page<ProductDetail> findByDeletedFalse(Pageable pageable) {
         return productDetailRepository.findByDeletedFalse(pageable);
     }
+
+    @Override
+    public Page<ProductDetailResponse> findAllByProductId(String productId, Pageable pageable) {
+        return productDetailRepository.findAllByProductId(productId, pageable).map(
+                productDetail -> productDetailMapper.toProductDetailResponse(productDetail)
+        );
+    }
+
+    @Override
+    public Page<ProductDetailResponse> findByPriceRange(String productId, float minPrice, float maxPrice, Pageable pageable) {
+          return productDetailRepository
+                .findByProductIdAndPriceRange(productId, minPrice, maxPrice, pageable)
+                .map(productDetail ->
+                        productDetailMapper.toProductDetailResponse(productDetail)
+                );
+    }
+
+    @Override
+    public List<ProductDetail> findByProductIdAndPriceRange(String productId, float minPrice, float maxPrice) {
+        return productDetailRepository.findByProductIdAndPriceRange(productId, minPrice, maxPrice);
+    }
+
+
 }

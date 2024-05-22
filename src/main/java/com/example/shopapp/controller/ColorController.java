@@ -113,4 +113,5 @@ public class ColorController {
         model.addAttribute("colors", colorService.search(id, PageRequest.of(page, size)));
         return "/colors/index";
     }
+
 }
