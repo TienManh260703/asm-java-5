@@ -81,4 +81,9 @@ public class StaffServiceIplm implements IStaffService {
             staffRepository.save(existingStaff);
         }
     }
+
+    @Override
+    public Staff findByUserName(String userName) {
+        return staffRepository.findByUserName(userName);
+    }
 }

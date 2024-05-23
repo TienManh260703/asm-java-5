@@ -78,22 +78,22 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="ct" items="${staffs.content}" varStatus="i">
+        <c:forEach var="o" items="${staffs.content}" varStatus="i">
             <tr>
                 <th scope="row">${i.index + 1}</th>
-                <td>${ct.id}</td>
-                <td>${ct.code}</td>
-                <td>${ct.name}</td>
-                <td>${ct.userName}</td>
-                <td>${ct.role.description}</td>
-                <td class="${ct.status ? "text-danger" : "text-success" }">${ct.status ? "Khóa" : "Đang quản lý"}</td>
+                <td>${o.id}</td>
+                <td>${o.code}</td>
+                <td>${o.name}</td>
+                <td>${o.userName}</td>
+                <td>${o.role.description}</td>
+                <td class="${o.status ? "text-danger" : "text-success" }">${o.status ? "Khóa" : "Đang quản lý"}</td>
                 <td>
-                    <a href="/shop-app/staffs/view-update?id=${ct.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/staffs/view-update?id=${o.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-warning">Edit</a>
-                    <a href="/shop-app/staffs/detail?id=${ct.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/staffs/detail?id=${o.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-info">Info</a>
-                    <a href="/shop-app/staffs/update-status?id=${ct.id}"
-                       class="btn  ${ct.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${ct.status ? "Update status":"Remove"  }</a>
+                    <a href="/shop-app/staffs/update-status?id=${o.id}"
+                       class="btn  ${o.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${o.status ? "Update status":"Remove"  }</a>
                 </td>
             </tr>
         </c:forEach>

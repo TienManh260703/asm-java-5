@@ -25,8 +25,13 @@ public class Order {
     @JoinColumn(name = "customer_id")
     Customer customer;
     @Column(name = "create_at")
-    LocalDate createAt;
+    LocalDateTime createdAt;
     @Column(name = "date_of_payment")
     LocalDateTime dateOfPayment;
     Integer status = 0;
+    @PrePersist
+    protected void onCreate() {
+        createdAt = LocalDateTime.now();
+    }
+
 }

@@ -35,6 +35,11 @@ public class CustomerServiceIplm implements ICustomerService {
     }
 
     @Override
+    public Customer findByPhoneNumber(String phone) {
+        return customerRepository.findByPhoneNumber(phone);
+    }
+
+    @Override
     public Page<Customer> search(String key, Pageable pageable) {
         return customerRepository
                 .findByNameContainingIgnoreCaseOrPhoneNumber(key, key, pageable);

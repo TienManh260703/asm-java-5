@@ -9,8 +9,12 @@ public interface ICustomerService {
 
     Customer getCustomer(String id);
 
+    Customer findByPhoneNumber(String phone);
+
     Page<Customer> search(String key, Pageable pageable);
+
     boolean existsByPhoneNumberAndIdNot(String phoneNumber, String id);
+
     void create(Customer customer);
 
     void update(String id, Customer customer);

@@ -22,4 +22,5 @@ public interface IStaffService {
 
     void update(String id, Staff staff);
     void  deleted(String id);
+    Staff findByUserName(String userName);
 }

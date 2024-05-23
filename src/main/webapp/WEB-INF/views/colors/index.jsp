@@ -63,20 +63,20 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="ct" items="${colors.content}" varStatus="i">
+        <c:forEach var="o" items="${colors.content}" varStatus="i">
             <tr>
                 <th scope="row">${i.index + 1}</th>
-                <td>${ct.id}</td>
-                <td>${ct.code}</td>
-                <td>${ct.name}</td>
-                <td class="${ct.status ? "text-danger" : "text-success" }">${ct.status ? "Không dùng" : "Đang kinh doanh"}</td>
+                <td>${o.id}</td>
+                <td>${o.code}</td>
+                <td>${o.name}</td>
+                <td class="${o.status ? "text-danger" : "text-success" }">${o.status ? "Không dùng" : "Đang kinh doanh"}</td>
                 <td>
-                    <a href="/shop-app/colors/view-update?id=${ct.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/colors/view-update?id=${o.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-warning">Edit</a>
-                    <a href="/shop-app/colors/detail?id=${ct.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/colors/detail?id=${o.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-info">Info</a>
-                    <a href="/shop-app/colors/update-status?id=${ct.id}"
-                       class="btn  ${ct.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${ct.status ? "Update status":"Remove"  }</a>
+                    <a href="/shop-app/colors/update-status?id=${o.id}"
+                       class="btn  ${o.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${o.status ? "Update status":"Remove"  }</a>
                 </td>
             </tr>
         </c:forEach>

@@ -16,6 +16,8 @@ public interface CustomerRepository extends JpaRepository<Customer, String> {
 
     Page<Customer> findAll(Pageable pageable);
 
+    Customer findByPhoneNumber(String phone);
+
     @Query("SELECT c FROM Customer c WHERE LOWER(c.name) LIKE LOWER(CONCAT('%', :keyword, '%')) OR c.phoneNumber = :phoneNumber")
     Page<Customer> findByNameContainingIgnoreCaseOrPhoneNumber(@Param("keyword") String keyword, @Param("phoneNumber") String phoneNumber, Pageable pageable);
 }

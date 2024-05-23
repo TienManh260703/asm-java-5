@@ -22,6 +22,7 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
 
     Optional<Staff> findByIdAndStatusTrue(String id);
 
+    Staff findByUserName(String userName);
     @Query("SELECT s FROM Staff s " +
             "WHERE LOWER(s.userName) LIKE LOWER(CONCAT('%', :keyword, '%')) " +
             "OR LOWER(s.name) LIKE LOWER(CONCAT('%', :keyword, '%'))")
