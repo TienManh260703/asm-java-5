@@ -1,6 +1,5 @@
 package com.example.shopapp.model;
 
-import com.example.shopapp.enums.EnumStatusOrder;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -29,5 +28,5 @@ public class Order {
     LocalDate createAt;
     @Column(name = "date_of_payment")
     LocalDateTime dateOfPayment;
-    EnumStatusOrder status;
+    Integer status = 0;
 }

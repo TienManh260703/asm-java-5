@@ -48,24 +48,24 @@
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="st" items="${productsDetail.content}" varStatus="i">
+        <c:forEach var="ct" items="${productsDetail.content}" varStatus="i">
             <tr>
                 <th scope="row">${i.index + 1}</th>
-                <td>${st.id}</td>
-                <td>${st.code}</td>
-                <td>${st.name}</td>
+                <td>${ct.id}</td>
+                <td>${ct.code}</td>
+                <td>${ct.name}</td>
                     <%--                <td>${pd.sizeName}</td>--%>
                     <%--                <td>${pd.colorName}</td>--%>
-                <td>${st.quantity} </td>
-                <td>${st.price} VND</td>
-                <td class="${st.deleted ? "text-danger" : "text-success" }">${st.deleted ? "Tạm ngừng" : "Đang kinh doanh"}</td>
+                <td>${ct.quantity} </td>
+                <td>${ct.price} VND</td>
+                <td class="${ct.deleted ? "text-danger" : "text-success" }">${ct.deleted ? "Tạm ngừng" : "Đang kinh doanh"}</td>
                 <td>
-                    <a href="/shop-app/products/products-detail/view-update?id=${st.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/products/products-detail/view-update?id=${ct.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-warning">Edit</a>
-                    <a href="/shop-app/products/products-detail/detail?id=${st.id}&page=${currentPage}&size=${currentSize}"
+                    <a href="/shop-app/products/products-detail/detail?id=${ct.id}&page=${currentPage}&size=${currentSize}"
                        class="btn btn-info">Info</a>
-                    <a href="/shop-app/products/products-detail/update-status?id=${st.id}"
-                       class="btn  ${st.deleted ? 'btn-outline-success' : 'btn-outline-danger'} "> ${st.deleted ? "Update status":"Remove"  } </a>
+                    <a href="/shop-app/products/products-detail/update-status?id=${ct.id}"
+                       class="btn  ${ct.deleted ? 'btn-outline-success' : 'btn-outline-danger'} "> ${ct.deleted ? "Update status":"Remove"  } </a>
                 </td>
             </tr>
         </c:forEach>

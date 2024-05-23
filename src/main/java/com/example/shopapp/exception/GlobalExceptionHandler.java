@@ -29,11 +29,18 @@ public class GlobalExceptionHandler {
         model.addAttribute("message", ex.getMessage());
         return "/exception/index";
     }
-    @ExceptionHandler(NoResourceFoundException.class)
-    public String handleNoResourceFoundException(NoResourceFoundException ex, Model model) {
-        model.addAttribute("error", "Đường dẫn không tồn tại");
+//    @ExceptionHandler(NoResourceFoundException.class)
+//    public String handleNoResourceFoundException(NoResourceFoundException ex, Model model) {
+//        model.addAttribute("error", "Đường dẫn không tồn tại");
+//        model.addAttribute("message", ex.getMessage());
+//        return "/exception/index";
+//    }
+    @ExceptionHandler(IllegalStateException.class)
+    public String handleIllegalStateException(IllegalStateException ex, Model model) {
+        model.addAttribute("error", "Lỗi : IllegalStateException");
         model.addAttribute("message", ex.getMessage());
         return "/exception/index";
     }
+
 
 }

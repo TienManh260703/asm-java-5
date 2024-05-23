@@ -67,7 +67,7 @@ public class ColorController {
     }
 
     @GetMapping("view-update")
-    public String updateColor(
+    public String viewUpdate(
             @RequestParam String id,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
@@ -93,8 +93,7 @@ public class ColorController {
             @RequestParam String id,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
-            Model model
-    ) {
+            Model model) {
         Color color = colorService.getColor(id);
         model.addAttribute("color", color);
         model.addAttribute("id", color.getId());
