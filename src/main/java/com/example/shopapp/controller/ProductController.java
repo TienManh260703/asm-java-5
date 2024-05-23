@@ -105,10 +105,11 @@ public class ProductController {
     }
 
     @GetMapping("search")
-    public String search(@RequestParam String id,
-                         @RequestParam(value = "page", defaultValue = "0") Integer page,
-                         @RequestParam(value = "size", defaultValue = "5") Integer size,
-                         Model model) {
+    public String search(
+            @RequestParam String id,
+            @RequestParam(value = "page", defaultValue = "0") Integer page,
+            @RequestParam(value = "size", defaultValue = "5") Integer size,
+            Model model) {
 
         model.addAttribute("url", URL + "add");
         model.addAttribute("product", Product.builder().code(generatePRODUCT()).build());

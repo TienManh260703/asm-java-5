@@ -5,13 +5,20 @@ import org.springframework.ui.Model;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({HttpRequestMethodNotSupportedException.class })
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class )
     public String handleHttpRequestMethodNotSupportedException(HttpRequestMethodNotSupportedException exception , Model model){
         model.addAttribute("error", "Http Request Method Not Supported Exception");
+        model.addAttribute("message", exception.getMessage());
+        return "/exception/index";
+    }
+    @ExceptionHandler(Exception.class )
+    public String handleException(RuntimeException exception , Model model){
+        model.addAttribute("error", "Lỗi chưa bắt được");
         model.addAttribute("message", exception.getMessage());
         return "/exception/index";
     }
@@ -22,4 +29,11 @@ public class GlobalExceptionHandler {
         model.addAttribute("message", ex.getMessage());
         return "/exception/index";
     }
+    @ExceptionHandler(NoResourceFoundException.class)
+    public String handleNoResourceFoundException(NoResourceFoundException ex, Model model) {
+        model.addAttribute("error", "Đường dẫn không tồn tại");
+        model.addAttribute("message", ex.getMessage());
+        return "/exception/index";
+    }
+
 }

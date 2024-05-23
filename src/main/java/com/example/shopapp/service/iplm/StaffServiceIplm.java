@@ -1,5 +1,6 @@
 package com.example.shopapp.service.iplm;
 
+import com.example.shopapp.enums.Role;
 import com.example.shopapp.model.Staff;
 import com.example.shopapp.repository.StaffRepository;
 import com.example.shopapp.service.IStaffService;
@@ -34,8 +35,8 @@ public class StaffServiceIplm implements IStaffService {
     }
 
     @Override
-    public Page<Staff> search(String name, Pageable pageable) {
-        return staffRepository.findByNameContainingIgnoreCase(name, pageable);
+    public Page<Staff> search(String key, Pageable pageable) {
+        return staffRepository.findByNameContainingIgnoreCase(key, pageable);
     }
 
     @Override
@@ -44,8 +45,16 @@ public class StaffServiceIplm implements IStaffService {
     }
 
     @Override
+    public Staff getStaff(String id) {
+        Staff staff = staffRepository.findById(id).get();
+
+        return staff;
+    }
+
+    @Override
     public void create(Staff staff) {
         // PasswordEncoder
+        staff.setRole(Role.EMPLOYEE);
         staffRepository.save(staff);
     }
 
@@ -58,8 +67,7 @@ public class StaffServiceIplm implements IStaffService {
             existingStaff.setUserName(staff.getUserName());
             // PasswordEncoder ->
             existingStaff.setPassword(staff.getPassword());
-            existingStaff.setRole(staff.getRole());
-
+//            existingStaff.setRole(Role.EMPLOYEE);
             staffRepository.save(existingStaff);
         }
     }

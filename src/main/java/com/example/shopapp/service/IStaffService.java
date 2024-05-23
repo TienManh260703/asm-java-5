@@ -13,10 +13,10 @@ public interface IStaffService {
 
     Page<Staff> getStaffs(Pageable pageable);
 
-    Page<Staff> search(String name, Pageable pageable);
+    Page<Staff> search(String key,  Pageable pageable);
 
     Optional<Staff> findByIdAndStatusTrue(String id);
-
+    Staff getStaff(String id);
 
     void create(Staff staff);
 

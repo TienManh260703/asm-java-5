@@ -21,7 +21,6 @@ public class Customer {
     @Column(name = "phone_number",length = 10,nullable = false, unique = true)
     String phoneNumber;
     Boolean status=false;
-
     @OneToMany( mappedBy = "customer" ,fetch =  FetchType.LAZY, cascade = CascadeType.ALL)
     List<Order> orders;
 }
