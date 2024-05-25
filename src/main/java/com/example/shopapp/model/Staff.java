@@ -32,7 +32,6 @@ public class Staff {
     @Column(name = "user_name")
     String userName;
     @NotBlank(message = "Mật khẩu không được để trống")
-
     @Size(min = 6 , max = 10, message = "Mật khẩu đăng nhập phải 6 ký tự -> 10 ký tự")
     String password;
     Role role;

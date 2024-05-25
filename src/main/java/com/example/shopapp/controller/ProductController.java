@@ -2,6 +2,7 @@ package com.example.shopapp.controller;
 
 import com.example.shopapp.model.Product;
 import com.example.shopapp.service.iplm.ProductServiceIplm;
+import com.example.shopapp.util.SessionUtil;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,7 @@ import static com.example.shopapp.common.GenCode.generatePRODUCT;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductController {
+    SessionUtil session;
     ProductServiceIplm productService;
     static String URL = "/shop-app/products/";
 

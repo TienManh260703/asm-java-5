@@ -16,6 +16,8 @@ public interface StaffRepository extends JpaRepository<Staff, String> {
 
     boolean existsByUserNameAndIdNot(String name, String id);
 
+    Staff findByUserNameAndPasswordAndStatusIsFalse(String username , String password);
+
     Page<Staff> findAll(Pageable pageable);
 
     Page<Staff> findByNameContainingIgnoreCase(String name, Pageable pageable);

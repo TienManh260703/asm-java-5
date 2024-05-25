@@ -10,6 +10,9 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @Entity
 @Table(name = "order_detail")
+//, uniqueConstraints = {
+//@UniqueConstraint(columnNames = {"order_id", "product_detail_id"})
+//}
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class OrderDetail {
     @Id

@@ -3,6 +3,7 @@ package com.example.shopapp.controller;
 import com.example.shopapp.common.GenCode;
 import com.example.shopapp.model.Size;
 import com.example.shopapp.service.iplm.SizeServiceIplm;
+import com.example.shopapp.util.SessionUtil;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class SizeController {
+    SessionUtil session;
     SizeServiceIplm sizeService;
     String url = "/shop-app/sizes/";
 

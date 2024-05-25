@@ -19,6 +19,7 @@ public class OrderResponse {
     String customerId;
     String customerName;
     String phoneNumber;
+    Float totalMoney;
     LocalDateTime createdAt;
     LocalDateTime dateOfPayment;
     Integer status ;

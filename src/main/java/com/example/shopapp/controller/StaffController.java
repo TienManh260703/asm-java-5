@@ -5,6 +5,7 @@ import com.example.shopapp.enums.Role;
 import com.example.shopapp.model.Color;
 import com.example.shopapp.model.Staff;
 import com.example.shopapp.service.iplm.StaffServiceIplm;
+import com.example.shopapp.util.SessionUtil;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class StaffController {
-
+    SessionUtil session;
     StaffServiceIplm staffService;
     String url = "/shop-app/staffs/";
 
@@ -125,22 +126,23 @@ public class StaffController {
     }
 
     @GetMapping("search")
-    public String search (
+    public String search(
             @RequestParam String id,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
             Model model
 
-    ){
+    ) {
         Page<Staff> staffs = staffService.search(id, PageRequest.of(page, size));
-        if(staffs.isEmpty()){
-            staffs= staffService.getStaffs(PageRequest.of(page, size));
+        if (staffs.isEmpty()) {
+            staffs = staffService.getStaffs(PageRequest.of(page, size));
         }
         model.addAttribute("staff", Staff.builder().code(GenCode.generateSTAFF()).build());
         model.addAttribute("staffs", staffs);
         model.addAttribute("url", url + "add");
         return "/staffs/index";
     }
+
     @GetMapping("update-status")
     private String deleted(@RequestParam String id) {
         staffService.deleted(id);

@@ -3,6 +3,7 @@ package com.example.shopapp.controller;
 import com.example.shopapp.common.GenCode;
 import com.example.shopapp.model.Customer;
 import com.example.shopapp.service.iplm.CustomerServiceIplm;
+import com.example.shopapp.util.SessionUtil;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class CustomerController {
+    SessionUtil session;
     CustomerServiceIplm customerService;
     String url = "/shop-app/customers/";
 

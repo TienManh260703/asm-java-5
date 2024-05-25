@@ -1,8 +1,10 @@
 package com.example.shopapp.controller;
 
 import com.example.shopapp.common.GenCode;
+import com.example.shopapp.enums.Role;
 import com.example.shopapp.model.Color;
 import com.example.shopapp.service.iplm.ColorServiceIplm;
+import com.example.shopapp.util.SessionUtil;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +25,7 @@ import static com.example.shopapp.common.GenCode.generateCOLOR;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ColorController {
+    SessionUtil session;
     ColorServiceIplm colorService;
     String url = "/shop-app/colors/";
 
@@ -41,6 +44,9 @@ public class ColorController {
     public String create(
             @Valid Color color, BindingResult result, Model model
     ) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors()) {
             model.addAttribute("color", color);
             model.addAttribute("colors", colorService.getColorPage(PageRequest.of(0, 5)));
@@ -57,12 +63,13 @@ public class ColorController {
             BindingResult result,
             Model model
     ) {
+
         if (result.hasErrors()) {
             model.addAttribute("color", color);
             model.addAttribute("colors", colorService.getColorPage(PageRequest.of(0, 5)));
             return "/colors/index";
         }
-        colorService.update( id,color);
+        colorService.update(id, color);
         return "redirect:/shop-app/colors";
     }
 
@@ -71,8 +78,10 @@ public class ColorController {
             @RequestParam String id,
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
-            Model model
-    ) {
+            Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         Color color = colorService.getColor(id);
         model.addAttribute("color", color);
         model.addAttribute("id", color.getId());
@@ -84,6 +93,9 @@ public class ColorController {
 
     @GetMapping("update-status")
     public String deleted(@RequestParam String id) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         colorService.deleted(id);
         return "redirect:/shop-app/colors";
     }

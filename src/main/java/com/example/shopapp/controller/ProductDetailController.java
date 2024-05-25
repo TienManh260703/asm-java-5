@@ -13,6 +13,7 @@ import com.example.shopapp.service.iplm.ColorServiceIplm;
 import com.example.shopapp.service.iplm.ProductDetailServiceIplm;
 import com.example.shopapp.service.iplm.ProductServiceIplm;
 import com.example.shopapp.service.iplm.SizeServiceIplm;
+import com.example.shopapp.util.SessionUtil;
 import jakarta.validation.Valid;
 import lombok.AccessLevel;
 import lombok.RequiredArgsConstructor;
@@ -32,7 +33,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class ProductDetailController {
-
+    SessionUtil session;
     ColorServiceIplm colorService;
     ProductServiceIplm productService;
     SizeServiceIplm sizeService;

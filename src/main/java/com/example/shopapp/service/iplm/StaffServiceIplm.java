@@ -86,4 +86,13 @@ public class StaffServiceIplm implements IStaffService {
     public Staff findByUserName(String userName) {
         return staffRepository.findByUserName(userName);
     }
+
+    @Override
+    public Staff login(String username, String password) {
+       Staff existingStaff =staffRepository.findByUserNameAndPasswordAndStatusIsFalse(username, password);
+        if(existingStaff!=null){
+            return existingStaff;
+        }
+        return null;
+    }
 }

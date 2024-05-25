@@ -18,6 +18,8 @@
 <c:set var="pageSize" value="${orders.size}"/>
 <c:set var="currentId" value="${id}"/>
 
+
+
 <div class=" bg-white" style="padding: 10px; border-radius: 10px;">
     <h1 class="text-center">Quản lý hóa đơn</h1>
     <div style="display: flex;justify-content: center;" class="mt-2">
@@ -64,10 +66,10 @@
                 <tr>
                     <th scope="col">STT</th>
                     <th scope="col">ID</th>
-                    <th scope="col">Staff</th>
-                    <th scope="col">Customer</th>
-                    <th scope="col">Created at</th>
-                    <th scope="col">dateOfPayment</th>
+                    <th scope="col">Người tạo</th>
+                    <th scope="col">Khách hàng</th>
+                    <th scope="col">Ngày tạo</th>
+                    <th scope="col">Ngày thanh toán</th>
                     <th scope="col">Status</th>
                     <th scope="col">Action</th>
 
@@ -75,7 +77,7 @@
                 </thead>
                 <tbody>
                 <c:forEach var="o" items="${orders.content}" varStatus="i">
-                    <tr onclick="return location.href ='/shop-app/staffs'" >
+                    <tr onclick="return location.href ='/shop-app/orders/orders-detail?id=${o.id}&page=${currentPage}'">
                         <th scope="row">${i.index + 1}</th>
                         <td>${o.id}</td>
                         <td>${o.staff.userName}</td>
@@ -101,7 +103,7 @@
                 <ul class="pagination justify-content-center">
                     <li class="page-item ${orders.number == 0 ? 'disabled' : ''}">
                         <a class="page-link"
-                           href="?page=${currentPage - 1}&size=${pageSize}&id=${currentId}">Previous</a>
+                           href="?page=${ saveCurrentPage = currentPage - 1}&size=${pageSize}&id=${currentId}" >Previous</a>
                     </li>
                     <c:forEach var="i" begin="0" end="${orders.totalPages - 1}">
                         <li class="page-item ${i == currentPage ? 'active' : ''}">
@@ -116,59 +118,45 @@
         </div>
     </div>
 
-    <%--    Table --%>
-    <%--    <div class="container">--%>
-    <%--        <table class="table table-striped ">--%>
-    <%--            <thead>--%>
-    <%--            <tr>--%>
-    <%--                <th scope="col">STT</th>--%>
-    <%--                <th scope="col">ID</th>--%>
-    <%--                <th scope="col">Code</th>--%>
-    <%--                <th scope="col">Name</th>--%>
-    <%--                <th scope="col">Phone Number</th>--%>
-    <%--                <th scope="col">Status</th>--%>
-    <%--                <th scope="col">Action</th>--%>
-    <%--            </tr>--%>
-    <%--            </thead>--%>
-    <%--            <tbody>--%>
-    <%--            <c:forEach var="ct" items="${customers.content}" varStatus="i">--%>
-    <%--                <tr>--%>
-    <%--                    <th scope="row">${i.index + 1}</th>--%>
-    <%--                    <td>${ct.id}</td>--%>
-    <%--                    <td>${ct.code}</td>--%>
-    <%--                    <td>${ct.name}</td>--%>
-    <%--                    <td>${ct.phoneNumber}</td>--%>
 
-    <%--                    <td class="${ct.status ? "text-danger" : "text-success" }">${ct.status ? "Xóa" : "Đang quản lý"}</td>--%>
-    <%--                    <td>--%>
-    <%--                        <a href="/shop-app/customers/view-update?id=${ct.id}&page=${currentPage}&size=${currentSize}"--%>
-    <%--                           class="btn btn-warning">Edit</a>--%>
-    <%--                        <a href="/shop-app/customers/detail?id=${ct.id}&page=${currentPage}&size=${currentSize}"--%>
-    <%--                           class="btn btn-info">Info</a>--%>
-    <%--                        <a href="/shop-app/customers/update-status?id=${ct.id}"--%>
-    <%--                           class="btn  ${ct.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${ct.status ? "Update status":"Remove"  }</a>--%>
-    <%--                    </td>--%>
-    <%--                </tr>--%>
-    <%--            </c:forEach>--%>
-    <%--            </tbody>--%>
-    <%--        </table>--%>
+    <div class="container">
+        <h1 class="text-center">Danh sách hóa đơn chi tiết</h1>
+        <table class="table table-striped ">
+            <thead>
+            <tr>
+                <th scope="col">STT</th>
+                <th scope="col">Sản phẩm</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Đơn giá</th>
+                <th scope="col">Thành tiền</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <c:forEach var="odt" items="${ordersDetail}" varStatus="i">
+                <tr>
+                    <th scope="row">${i.index + 1}</th>
+                    <td>${odt.productDetailName}</td>
+                    <td>${odt.quantity}</td>
+                    <td>${odt.price}</td>
+                    <td>${odt.totalMoney}</td>
 
-    <%--        <nav aria-label="Page navigation">--%>
-    <%--            <ul class="pagination justify-content-center">--%>
-    <%--                <li class="page-item ${customers.number == 0 ? 'disabled' : ''}">--%>
-    <%--                    <a class="page-link" href="?page=${currentPage - 1}&size=${pageSize}&id=${currentId}">Previous</a>--%>
-    <%--                </li>--%>
-    <%--                <c:forEach var="i" begin="0" end="${customers.totalPages - 1}">--%>
-    <%--                    <li class="page-item ${i == currentPage ? 'active' : ''}">--%>
-    <%--                        <a class="page-link" href="?page=${i}&size=${pageSize}&id=${currentId}">${i + 1}</a>--%>
-    <%--                    </li>--%>
-    <%--                </c:forEach>--%>
-    <%--                <li class="page-item ${customers.number == customers.totalPages - 1 ? 'disabled' : ''}">--%>
-    <%--                    <a class="page-link" href="?page=${currentPage + 1}&size=${pageSize}&id=${currentId}">Next</a>--%>
-    <%--                </li>--%>
-    <%--            </ul>--%>
-    <%--        </nav>--%>
-    <%--    </div>--%>
+                    <td class="${odt.status ? "text-danger" : "text-success" }">${odt.status ? "Xóa" : "Đang quản lý"}</td>
+                    <td>
+                        <a href="/shop-app/customers/view-update?id=${odt.id}&page=${currentPage}&size=${currentSize}"
+                           class="btn btn-warning">Edit</a>
+                        <a href="/shop-app/customers/detail?id=${odt.id}&page=${currentPage}&size=${currentSize}"
+                           class="btn btn-info">Info</a>
+                        <a href="/shop-app/customers/update-status?id=${odt.id}"
+                           class="btn  ${odt.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${odt.status ? "Update status":"Remove"  }</a>
+                    </td>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+
+    </div>
 </div>
 </body>
 </html>

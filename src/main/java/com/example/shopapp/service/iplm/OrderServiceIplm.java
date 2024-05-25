@@ -4,6 +4,7 @@ import com.example.shopapp.dto.request.OrderRequest;
 import com.example.shopapp.dto.response.OrderResponse;
 import com.example.shopapp.mapper.OrderMapper;
 import com.example.shopapp.model.Order;
+import com.example.shopapp.model.ProductDetail;
 import com.example.shopapp.repository.OrderRepository;
 import com.example.shopapp.service.IColorService;
 import com.example.shopapp.service.IOrderService;
@@ -15,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
