@@ -31,8 +31,10 @@ public class OrderMapper {
                         orderDetail.getProductDetail().getColor().getName() + " - " +
                         orderDetail.getProductDetail().getSize().getName() + " ]"
         );
+        orderDetailResponse.setMaxQuantity(orderDetail.getProductDetail().getQuantity());
         orderDetailResponse.setPrice(orderDetail.getPrice());
         orderDetailResponse.setQuantity(orderDetail.getQuantity());
+        orderDetailResponse.setStatus(orderDetail.getStatus());
         return orderDetailResponse;
     }
 }

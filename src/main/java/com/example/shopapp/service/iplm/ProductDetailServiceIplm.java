@@ -75,6 +75,13 @@ public class ProductDetailServiceIplm implements IProductDetailService {
     }
 
     @Override
+    public Page<ProductDetailResponse> findByDeletedFalseResponse(Pageable pageable) {
+        return productDetailRepository.findByDeletedFalse(pageable).map(
+                productDetail ->  productDetailMapper.toProductDetailResponse(productDetail)
+        );
+    }
+
+    @Override
     public Page<ProductDetailResponse> findAllByProductId(String productId, Pageable pageable) {
         return productDetailRepository.findAllByProductId(productId, pageable).map(
                 productDetail -> productDetailMapper.toProductDetailResponse(productDetail)

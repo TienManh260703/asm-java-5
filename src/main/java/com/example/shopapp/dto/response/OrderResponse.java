@@ -23,4 +23,6 @@ public class OrderResponse {
     LocalDateTime createdAt;
     LocalDateTime dateOfPayment;
     Integer status ;
+
+    Float moneyReceived;
 }

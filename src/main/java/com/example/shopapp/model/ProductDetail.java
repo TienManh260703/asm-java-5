@@ -31,7 +31,7 @@ public class ProductDetail {
     @JoinColumn(name = "product_id", nullable = false)
     Product product;
     @NotNull(message = "Số lượng không được để trống")
-    @Min(value = 1, message = "Số lượng phải lớn hơn 0")
+    @Min(value = 0, message = "Số lượng phải >= 0")
     Integer quantity;
     @NotNull(message = "Giá không được để trống")
     @DecimalMin(value = "0.0", inclusive = false, message = "Giá hơn >=0.0")

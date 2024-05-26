@@ -14,10 +14,13 @@ public class OrderDetailResponse {
     String orderId;
     String productDetailId;
     String productDetailName;
+    Integer maxQuantity;
     Integer quantity;
     Float price;
     Float totalMoney;
     Boolean status;
+    //
+    Float moneyReceived;
 
     public Float getTotalMoney() {
         totalMoney = price * quantity;

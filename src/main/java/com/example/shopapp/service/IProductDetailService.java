@@ -19,6 +19,7 @@ public interface IProductDetailService {
 
     void deleted(String id);
     Page<ProductDetail> findByDeletedFalse (Pageable pageable);
+    Page<ProductDetailResponse> findByDeletedFalseResponse (Pageable pageable);
     Page<ProductDetailResponse> findAllByProductId(String productId , Pageable pageable);
     Page<ProductDetailResponse> findByPriceRange( String prodiutId,float minPrice, float maxPrice, Pageable pageable);
     List<ProductDetail> findByProductIdAndPriceRange(String productId, float minPrice, float maxPrice);

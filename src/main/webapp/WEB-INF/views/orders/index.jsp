@@ -35,7 +35,9 @@
         <div class="col-4">
             <h3 class="text-center">Thông tin đơn hàng</h3>
             <form:form action="${url}" modelAttribute="order" method="post">
-                <div style="display: flex; justify-content: center" class="row mt-3">
+            <form:input path="moneyReceived" hidden="true"  class="form-control" value="1"  />
+
+            <div style="display: flex; justify-content: center" class="row mt-3">
                     <div class="col-6">
                         <h6> staff :</h6>
                         <form:input path="staffUserName" cssClass="form-control "></form:input> <br>
@@ -46,11 +48,6 @@
                         <h6> phoneNumber :</h6>
                         <form:input path="phoneNumber" cssClass="form-control "></form:input> <br>
                         <form:errors path="phoneNumber"></form:errors>
-                            <%--                        <select>--%>
-                            <%--                            <c:forEach var="s" items="${staffs}">--%>
-                            <%--                                <option value="${s.id}">${s.userName}</option>--%>
-                            <%--                            </c:forEach>--%>
-                            <%--                        </select>--%>
                     </div>
                     <div class="col-7 mt-2 mb-5">
                         <h6></h6>

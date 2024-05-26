@@ -12,4 +12,6 @@ import java.util.List;
 public interface OrderDetailRepository extends JpaRepository<OrderDetail, String> {
     Page<OrderDetail> findAllByOrderId(String orderId, Pageable pageable);
     List<OrderDetail> findAllByOrderId(String id);
+    OrderDetail findByProductDetailIdAndOrderId(String productDetailId , String  orderId);
+    boolean existsByOrderIdAndProductDetailId (String orderId , String productDetailId);
 }

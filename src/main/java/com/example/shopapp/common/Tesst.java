@@ -2,6 +2,7 @@ package com.example.shopapp.common;
 
 import com.example.shopapp.model.Customer;
 import com.example.shopapp.repository.ProductDetailRepository;
+import com.example.shopapp.service.ISellService;
 import com.example.shopapp.service.iplm.CustomerServiceIplm;
 import com.example.shopapp.service.iplm.ProductDetailServiceIplm;
 import com.example.shopapp.service.iplm.ProductServiceIplm;
@@ -10,20 +11,26 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("test-api")
 public class Tesst {
     @Autowired
     ProductDetailServiceIplm productDetailServiceIplm;
     @Autowired
     CustomerServiceIplm customerServiceIplm;
 
+    @Autowired
+    ISellService iSellService;
+
+    @ResponseBody
+    @GetMapping
+    private ResponseEntity<?> test (){
+        return ResponseEntity.ok().body(iSellService.findOrderByStatus(0, PageRequest.of(0,5)));
+    }
     @ResponseBody
     @GetMapping("/getProductPriceRange")
     public ResponseEntity<?> getProductPriceRange(Model model) {

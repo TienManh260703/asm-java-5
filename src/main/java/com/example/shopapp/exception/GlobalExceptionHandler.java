@@ -16,12 +16,12 @@ public class GlobalExceptionHandler {
         model.addAttribute("message", exception.getMessage());
         return "/exception/index";
     }
-    @ExceptionHandler(Exception.class )
-    public String handleException(RuntimeException exception , Model model){
-        model.addAttribute("error", "Lỗi chưa bắt được");
-        model.addAttribute("message", exception.getMessage());
-        return "/exception/index";
-    }
+//    @ExceptionHandler(Exception.class )
+//    public String handleException(RuntimeException exception , Model model){
+//        model.addAttribute("error", "Lỗi chưa bắt được");
+//        model.addAttribute("message", exception.getMessage());
+//        return "/exception/index";
+//    }
 
     @ExceptionHandler(JspTagException.class)
     public String handleJspTagException(JspTagException ex, Model model) {
