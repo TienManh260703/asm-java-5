@@ -61,7 +61,9 @@ public class StaffController {
 
     @PostMapping("add")
     public String create(@Valid Staff staff, BindingResult result, Model model) {
-
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors() || staffService.existsByUserName(staff.getUserName())) {
             if (staffService.existsByUserName(staff.getUserName())) {
                 model.addAttribute("message", "Tên đăng nhập đã tồn tại");
@@ -81,7 +83,9 @@ public class StaffController {
             @Valid Staff staff,
             BindingResult result,
             Model model) {
-
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors() || staffService.existsByUserNameAndIdNot(staff.getUserName(), id)) {
             if (staffService.existsByUserName(staff.getUserName())) {
                 model.addAttribute("message", "Tên đăng nhập đã tồn tại");
@@ -145,6 +149,9 @@ public class StaffController {
 
     @GetMapping("update-status")
     private String deleted(@RequestParam String id) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         staffService.deleted(id);
         return "redirect:/shop-app/staffs";
     }

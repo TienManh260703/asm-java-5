@@ -36,7 +36,11 @@ public class CustomerServiceIplm implements ICustomerService {
 
     @Override
     public Customer findByPhoneNumber(String phone) {
-        return customerRepository.findByPhoneNumber(phone);
+        Optional<Customer>  optionalCustomer=customerRepository.findByPhoneNumber(phone);
+        if(optionalCustomer.isPresent()){
+            return optionalCustomer.get();
+        }
+        return null;
     }
 
     @Override

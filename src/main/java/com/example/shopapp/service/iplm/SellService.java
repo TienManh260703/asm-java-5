@@ -89,15 +89,18 @@ public class SellService implements ISellService {
 
     @Override
     public void addOrderDetail(String productDetailId, String idOrder) {
-        if (orderDetailRepository.existsByOrderIdAndProductDetailId(idOrder, productDetailId)) {
+        Optional<ProductDetail> productDetailOptional = productDetailRepository.findById(productDetailId);
+        if (orderDetailRepository.existsByOrderIdAndProductDetailId(idOrder, productDetailId) ) {
             OrderDetail orderDetail = orderDetailRepository.findByProductDetailIdAndOrderId(productDetailId, idOrder);
-            orderDetail.setQuantity(orderDetail.getQuantity() + 1);
-            orderDetailRepository.save(orderDetail);
+            if((orderDetail.getQuantity() + 1)<=productDetailOptional.get().getQuantity()){
+                orderDetail.setQuantity(orderDetail.getQuantity() + 1);
+                orderDetailRepository.save(orderDetail);
+            }
             return;
         }
 
         Optional<Order> orderOptional = orderRepository.findById(idOrder);
-        Optional<ProductDetail> productDetailOptional = productDetailRepository.findById(productDetailId);
+
         if (orderOptional.isPresent() && productDetailOptional.isPresent()) {
             Order existingOrder = orderOptional.get();
             ProductDetail existingProductDetail = productDetailOptional.get();

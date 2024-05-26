@@ -3,6 +3,7 @@ package com.example.shopapp.service.iplm;
 import com.example.shopapp.dto.request.OrderRequest;
 import com.example.shopapp.dto.response.OrderResponse;
 import com.example.shopapp.mapper.OrderMapper;
+import com.example.shopapp.model.Customer;
 import com.example.shopapp.model.Order;
 import com.example.shopapp.model.ProductDetail;
 import com.example.shopapp.repository.OrderRepository;
@@ -31,6 +32,7 @@ public class OrderServiceIplm implements IOrderService {
 
     @Override
     public Page<Order> getOrders(Pageable pageable) {
+
         return orderRepository.findAll(pageable);
     }
 
@@ -55,11 +57,16 @@ public class OrderServiceIplm implements IOrderService {
     }
 
     @Override
-    public void create(OrderRequest request) {
+    public boolean create(OrderRequest request) {
         Order order = new Order();
         order.setStaff(staffService.findByUserName(request.getStaffUserName()));
-        order.setCustomer(customerService.findByPhoneNumber(request.getPhoneNumber()));
-        orderRepository.save(order);
+        Customer customer = customerService.findByPhoneNumber(request.getPhoneNumber());
+        if (customer != null) {
+            order.setCustomer(customer);
+            orderRepository.save(order);
+            return true;
+        }
+        return false;
     }
 
     @Override

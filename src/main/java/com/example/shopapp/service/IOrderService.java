@@ -10,7 +10,7 @@ public interface IOrderService {
     Page<Order> getOrders(Pageable pageable);
     OrderResponse getOrder (String id);
     void  update(String id, OrderRequest order);
-    void  create(OrderRequest order);
+    boolean  create(OrderRequest order);
     void updateStatus(String id, Integer status);
     void pay(String id);
 }

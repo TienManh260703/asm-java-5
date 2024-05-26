@@ -43,6 +43,9 @@ public class ProductController {
     public String createProduct(
             @Valid Product product, BindingResult result,
             Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors()) {
             model.addAttribute("product", product);
             model.addAttribute("products", productService.getProductPage(PageRequest.of(0, 5)));
@@ -55,6 +58,9 @@ public class ProductController {
 
     @PostMapping("update")
     public String updateProduct(@RequestParam String id, @Valid Product product, BindingResult result, Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors()) {
             model.addAttribute("product", product);
             model.addAttribute("id", product.getId());
@@ -101,6 +107,9 @@ public class ProductController {
 
     @GetMapping("update-status")
     public String delete(@RequestParam String id) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         productService.deleted(id);
         return "redirect:/shop-app/products";
     }

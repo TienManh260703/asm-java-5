@@ -8,22 +8,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class=" navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">Shop App</a>
-        <div class="collapse navbar-collapse">
+        <a class="navbar-brand" href="#">Shop app</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                    <a class="nav-link active" aria-current="page" href="/shop-app/sells">Bán hàng</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        Quản lý
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="/shop-app/staffs">Nhân viên</a></li>
+                        <li><a class="dropdown-item" href="/shop-app/customers">Khách hàng</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/shop-app/products">Sản phẩm</a></li>
+                        <li><a class="dropdown-item" href="/shop-app/colors">Màu sắc</a></li>
+                        <li><a class="dropdown-item" href="/shop-app/sizes">Kích thước</a></li>
+
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="/shop-app/orders">Hóa đơn</a></li>
+                    </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Orders</a>
+                    <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                 </li>
             </ul>
-            <form class="d-flex" action="/shop-app/admin/logout" method="get">
-                <button class="btn btn-outline-success" type="submit">Logout</button>
+            <form action="/shop-app/admin/logout" method="get" class="d-flex" role="search">
+                <button class="btn btn-outline-success" type="submit">Đăng xuất</button>
             </form>
         </div>
     </div>
@@ -39,9 +67,22 @@
 <div class="ps-5 pe-5 mt-1">
     <div class="row">
         <div class="col-md-4">
+            <form:form action="/shop-app/sells/create-order" modelAttribute="newOrder" method="post">
+                <form:input path="moneyReceived" hidden="true"  class="form-control" value="1"  />
+                <form:input path="staffUserName" hidden="true" value="aaaaa" cssClass="form-control "></form:input> <br>
+                <div  class="row ">
+                    <div class="col-6">
+                        <p> Số điện thoại KH :</p>
+                        <form:input path="phoneNumber" cssClass="form-control "></form:input> <br>
+                        <form:errors path="phoneNumber"></form:errors>
+                        <p class="text-danger">${error}</p>
+                    </div>
+                    <div class="col-6">
+                        <button class="mt-4 btn btn-primary" > Tạo mới</button>
+                    </div>
+                </div>
+            </form:form>
             <h4>Danh sách hóa đơn</h4>
-            <button class="btn btn-primary">Add</button>
-
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -49,7 +90,6 @@
                     <th>NV</th>
                     <th>Khách hàng</th>
                     <th>Tt</th>
-
                 </tr>
                 </thead>
                 <tbody>
@@ -83,7 +123,6 @@
             </c:if>
 
         </div>
-
         <div class="col-md-6">
             <h4>Chi tiết hóa đơn</h4>
             <div style="overflow-y: auto; max-height: 200px;">
@@ -140,21 +179,21 @@
                 <div class="mb-3">
                     <label class="form-label">ID</label>
                     <form:input path="id" class="form-control" readonly="true"/>
-                    <form:input  path="phoneNumber" class="form-control "  hidden="true" readonly="true"/>
+                    <form:input path="phoneNumber" class="form-control " hidden="true" readonly="true"/>
                 </div>
                 <div class="mb-3">
                     <label class="form-label">Khách hàng</label>
-                    <form:input path="customerName"  class="form-control" readonly="true"/>
-                    <form:input path="staffUserName" hidden="true"  class="form-control" readonly="true"/>
+                    <form:input path="customerName" class="form-control" readonly="true"/>
+                    <form:input path="staffUserName" hidden="true" class="form-control" readonly="true"/>
                 </div>
                 <div class="mb-3">
-                    <label  class="form-label">Tổng tiền</label>
-                    <form:input path="totalMoney"  class="form-control" readonly="true"/>
+                    <label class="form-label">Tổng tiền</label>
+                    <form:input path="totalMoney" class="form-control" readonly="true"/>
                 </div>
 
                 <div class="mb-3">
-                    <label  class="form-label">Tiền khách đưa</label>
-                    <form:input path="moneyReceived"  class="form-control"  />
+                    <label class="form-label">Tiền khách đưa</label>
+                    <form:input path="moneyReceived" class="form-control"/>
                     <form:errors path="moneyReceived" cssStyle="color: red"></form:errors>
                     <p class="text-danger">${message}</p>
                 </div>
@@ -230,8 +269,22 @@
             return true; // Trả về true để submit form
         }
     }
+</script>
+<!-- show add order -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
+<script>
+    document.getElementById('addButton').addEventListener('click', function () {
+        var formModal = new bootstrap.Modal(document.getElementById('formModal'));
+        formModal.show();
+    });
 
+    document.getElementById('myForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        alert('Form submitted');
+        var formModal = bootstrap.Modal.getInstance(document.getElementById('formModal'));
+        formModal.hide();
+    });
 </script>
 </body>
 </html>

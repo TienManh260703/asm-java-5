@@ -40,8 +40,6 @@ public class ProductDetailController {
     ProductDetailServiceIplm productDetailService;
     String url = "/shop-app/products/products-detail/";
     static String saveProductId = "";
-
-
     @GetMapping
     public String index(
             @RequestParam(value = "productIdParam", defaultValue = "") String productId,
@@ -62,6 +60,9 @@ public class ProductDetailController {
     @PostMapping("add")
     public String create(
             @Valid @ModelAttribute("productDetail") ProductDetailRequest request, BindingResult result, Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors()) {
             model.addAttribute("productDetail", request);
             model.addAttribute("productsDetail", productDetailService.findAllByProductId(saveProductId, PageRequest.of(0, 5)));
@@ -77,6 +78,9 @@ public class ProductDetailController {
             @Valid @ModelAttribute("productDetail") ProductDetailRequest request,
             BindingResult result,
             Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors()) {
             model.addAttribute("productDetail", request);
             model.addAttribute("productsDetail", productDetailService.findAllByProductId(saveProductId, PageRequest.of(0, 5)));
@@ -122,6 +126,9 @@ public class ProductDetailController {
 
     @GetMapping("update-status")
     public String delete(@RequestParam String id) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         productDetailService.deleted(id);
         return "redirect:/shop-app/products/products-detail?productIdParam=" + saveProductId;
     }
@@ -139,7 +146,7 @@ public class ProductDetailController {
                         saveProductId, min, max, PageRequest.of(page, size));
         System.err.println("sie :"+responses.getTotalPages());
         if (responses.isEmpty()) {
-            responses = productDetailService.findAllByProductId(saveProductId, PageRequest.of(page, size));
+            responses = productDetailService.findAllByProductId(saveProductId, PageRequest.of(0, size));
         }
         initSelectBox(model);
         ProductDetailRequest productDetail = new ProductDetailRequest();

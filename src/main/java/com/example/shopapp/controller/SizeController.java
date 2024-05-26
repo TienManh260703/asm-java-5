@@ -39,6 +39,9 @@ public class SizeController {
 
     @PostMapping("add")
     public String create(@Valid Size size, BindingResult result, Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors() || sizeService.existsByName(size.getName())) {
             model.addAttribute("message", "Tên đã tồn tại !");
             model.addAttribute("size", size);
@@ -53,6 +56,7 @@ public class SizeController {
     @GetMapping("view-update")
     public String viewUpdate(@RequestParam String id, @RequestParam(defaultValue = "0") Integer page,
                              @RequestParam(defaultValue = "5") Integer size, Model model) {
+
         Size sizeO = sizeService.getSize(id);
         model.addAttribute("url", url + "update");
         model.addAttribute("isEdit", true);
@@ -67,6 +71,9 @@ public class SizeController {
             @Valid Size size,
             BindingResult result,
             Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors() || sizeService.existsByNameAndIdNot(size.getName(), id)) {
             model.addAttribute("message", "Tên đã tồn tại ở 1 size khác !");
             model.addAttribute("size", size);
@@ -83,6 +90,7 @@ public class SizeController {
             @RequestParam(defaultValue = "0") Integer page,
             @RequestParam(defaultValue = "5") Integer size,
             Model model) {
+
         Size existingSize = sizeService.getSize(id);
         model.addAttribute("url", url + "update");
 
@@ -95,6 +103,9 @@ public class SizeController {
 
     @GetMapping("update-status")
     public String deleted(@RequestParam String id) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         sizeService.deleted(id);
         return "redirect:/shop-app/sizes";
     }

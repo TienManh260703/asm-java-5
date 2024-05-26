@@ -42,6 +42,9 @@ public class CustomerController {
             @Valid Customer customer,
             BindingResult result,
             Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         Boolean checkPhone = customerService.existsByPhoneNumber(customer.getPhoneNumber());
         if (result.hasErrors() || checkPhone) {
             if (checkPhone) {
@@ -61,6 +64,9 @@ public class CustomerController {
             @Valid Customer customer,
             BindingResult result,
             Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         Boolean checkPhone = customerService.existsByPhoneNumberAndIdNot(customer.getPhoneNumber(), id);
         if (result.hasErrors() || checkPhone) {
             if (checkPhone) {
@@ -103,6 +109,9 @@ public class CustomerController {
 
     @GetMapping("update-status")
     public String deleted(@RequestParam String id) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         customerService.deleted(id);
         return "redirect:/shop-app/customers";
     }

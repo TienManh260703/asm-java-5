@@ -25,6 +25,7 @@ public class SellController {
     SessionUtil session;
     SellService sellService;
     IProductDetailService iProductDetailService;
+    IOrderService iOrderService;
     static String saveIdOrder = "";
 
     @GetMapping
@@ -43,6 +44,7 @@ public class SellController {
         if (!saveIdOrder.equals("")) {
             response = sellService.getOrderById(saveIdOrder);
         }
+        model.addAttribute("newOrder", new OrderResponse());
         model.addAttribute("infoOrder", response == null ? new OrderResponse() : response);
         model.addAttribute("orders", sellService.findOrderByStatus(0, PageRequest.of(pageO, sizeO)));
         model.addAttribute("ordersDetail", sellService.findOrderByOrderId(saveIdOrder.equals("") ? idOrder : saveIdOrder));
@@ -60,7 +62,7 @@ public class SellController {
             Model model) {
         saveIdOrder = idOrder.equals("") ? saveIdOrder : idOrder;
         OrderResponse response = sellService.getOrderById(saveIdOrder);
-
+        model.addAttribute("newOrder", new OrderResponse());
         model.addAttribute("infoOrder", response == null ? new OrderResponse() : response);
         model.addAttribute("orders", sellService.findOrderByStatus(0, PageRequest.of(pageO, sizeO)));
         model.addAttribute("ordersDetail", sellService.findOrderByOrderId(saveIdOrder));
@@ -75,11 +77,15 @@ public class SellController {
             @RequestParam(value = "quantity") Integer quantity,
             @RequestParam(value = "pageO", defaultValue = "0") Integer pageO,
             @RequestParam(value = "sizeO", defaultValue = "2") Integer sizeO,
-            @RequestParam(value = "idOrder", defaultValue = "") String idOrder,
+//            @RequestParam(value = "idOrder", defaultValue = "") String idOrder,
             @RequestParam(value = "orderDetailId", defaultValue = "") String orderDetailId,
             @RequestParam(value = "pageP", defaultValue = "0") Integer pageP,
             @RequestParam(value = "sizeP", defaultValue = "5") Integer sizeP,
             Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
+        model.addAttribute("newOrder", new OrderResponse());
         model.addAttribute("infoOrder", new OrderRequest());
         sellService.updateOrderDetailQuantity(orderDetailId, quantity);
         model.addAttribute("orders", sellService.findOrderByStatus(0, PageRequest.of(pageO, sizeO)));
@@ -96,8 +102,11 @@ public class SellController {
             @RequestParam(value = "productDetailId", defaultValue = "") String productDetailId,
             @RequestParam(value = "pageP", defaultValue = "0") Integer pageP,
             @RequestParam(value = "sizeP", defaultValue = "5") Integer sizeP,
-            Model model
-    ) {
+            Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
+        model.addAttribute("newOrder", new OrderResponse());
         model.addAttribute("infoOrder", new OrderRequest());
         model.addAttribute("orders", sellService.findOrderByStatus(0, PageRequest.of(pageO, sizeO)));
         model.addAttribute("ordersDetail", sellService.findOrderByOrderId(saveIdOrder));
@@ -110,6 +119,10 @@ public class SellController {
     private String pay(
             @Valid @ModelAttribute("infoOrder") OrderRequest request,
             BindingResult result, Model model) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
+        model.addAttribute("newOrder", new OrderResponse());
         if (result.hasErrors()) {
             model.addAttribute("infoOrder", request);
             model.addAttribute("orders", sellService.findOrderByStatus(0, PageRequest.of(0, 2)));
@@ -133,10 +146,39 @@ public class SellController {
 
     @GetMapping("delete-order-detail")
     public String deleteOrderDetail(
-            @RequestParam("orderDetailId") String orderDetailId,
-            Model model
-    ) {
+            @RequestParam("orderDetailId") String orderDetailId) {
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         sellService.delete(orderDetailId);
+        return "redirect:/shop-app/sells";
+    }
+
+    @PostMapping("create-order")
+    private String createOrder (@Valid @ModelAttribute("newOrder") OrderRequest request ,BindingResult result, Model model){
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
+        if (result.hasErrors()) {
+            model.addAttribute("newOrder", request);
+            model.addAttribute("infoOrder", new OrderRequest());
+            model.addAttribute("orders", sellService.findOrderByStatus(0, PageRequest.of(0, 2)));
+            model.addAttribute("ordersDetail", sellService.findOrderByOrderId(""));
+            model.addAttribute("productDetail", iProductDetailService.findByDeletedFalseResponse(PageRequest.of(0, 5)));
+            return "/sell/index";
+        }
+        saveIdOrder="";
+        request.setStaffUserName(session.get().getUserName());
+       boolean check = iOrderService.create(request);
+       if(!check){
+           model.addAttribute("error", "Không thể tạo với số điện thoại này");
+           model.addAttribute("newOrder", request);
+           model.addAttribute("infoOrder", new OrderRequest());
+           model.addAttribute("orders", sellService.findOrderByStatus(0, PageRequest.of(0, 2)));
+           model.addAttribute("ordersDetail", sellService.findOrderByOrderId(""));
+           model.addAttribute("productDetail", iProductDetailService.findByDeletedFalseResponse(PageRequest.of(0, 5)));
+           return "/sell/index";
+       }
         return "redirect:/shop-app/sells";
     }
 }

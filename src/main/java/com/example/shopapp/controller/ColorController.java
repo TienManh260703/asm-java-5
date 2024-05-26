@@ -63,7 +63,9 @@ public class ColorController {
             BindingResult result,
             Model model
     ) {
-
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
         if (result.hasErrors()) {
             model.addAttribute("color", color);
             model.addAttribute("colors", colorService.getColorPage(PageRequest.of(0, 5)));
