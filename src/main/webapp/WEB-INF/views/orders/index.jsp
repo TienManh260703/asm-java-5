@@ -68,13 +68,13 @@
 <div class=" bg-white" style="padding: 10px; border-radius: 10px;">
     <h1 class="text-center">Quản lý hóa đơn</h1>
     <div style="display: flex;justify-content: center;" class="mt-2">
-        <form:form action="/shop-app/orders/search" method="get">
-            <div class="input-group mb-3 ">
-                <input type="text" name="id" class="form-control" placeholder="Tìm kiếm theo tên hoặc sđt"
-                       aria-label="Recipient's username" aria-describedby="button-addon2">
-                <button class="btn btn-outline-primary">Tìm</button>
-            </div>
-        </form:form>
+<%--        <form:form action="/shop-app/orders/search" method="get">--%>
+<%--            <div class="input-group mb-3 ">--%>
+<%--                <input type="text" name="id" class="form-control" placeholder="Tìm kiếm theo tên hoặc sđt"--%>
+<%--                       aria-label="Recipient's username" aria-describedby="button-addon2">--%>
+<%--                <button class="btn btn-outline-primary">Tìm</button>--%>
+<%--            </div>--%>
+<%--        </form:form>--%>
     </div>
     <div style="display: flex;justify-content: center" class="row pe-5 ps-5">
         <div class="col-2">
@@ -152,8 +152,6 @@
             </nav>
         </div>
     </div>
-
-
     <div class="container">
         <h1 class="text-center">Danh sách hóa đơn chi tiết</h1>
         <table class="table table-striped ">
@@ -164,7 +162,7 @@
                 <th scope="col">Số lượng</th>
                 <th scope="col">Đơn giá</th>
                 <th scope="col">Thành tiền</th>
-                <th scope="col">Status</th>
+                <th scope="col">Trạng thái</th>
                 <th scope="col">Action</th>
             </tr>
             </thead>
@@ -179,12 +177,7 @@
 
                     <td class="${odt.status ? "text-danger" : "text-success" }">${odt.status ? "Xóa" : "Đang quản lý"}</td>
                     <td>
-                        <a href="/shop-app/customers/view-update?id=${odt.id}&page=${currentPage}&size=${currentSize}"
-                           class="btn btn-warning">Edit</a>
-                        <a href="/shop-app/customers/detail?id=${odt.id}&page=${currentPage}&size=${currentSize}"
-                           class="btn btn-info">Info</a>
-                        <a href="/shop-app/customers/update-status?id=${odt.id}"
-                           class="btn  ${odt.status ? 'btn-outline-success' : 'btn-outline-danger'} "> ${odt.status ? "Update status":"Remove"  }</a>
+                        <a class="btn btn-danger" ${odt.statusOrder ==1 ? "hidden": "" }  href="/shop-app/orders/order-detail/deleted?orderDetailId=${odt.id}">Delete</a>
                     </td>
                 </tr>
             </c:forEach>

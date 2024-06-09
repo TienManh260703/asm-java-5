@@ -2,6 +2,7 @@ package com.example.shopapp.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
@@ -21,6 +22,7 @@ public class Color {
     @GeneratedValue(strategy = GenerationType.UUID)
     String id;
     String code;
+    @NotNull(message = "Tên màu chưa có !")
     @NotBlank(message = "Tên màu không được để trống !")
     String name;
     Boolean status =false;

@@ -22,6 +22,7 @@ public class OrderDetailResponse {
     //
     Float moneyReceived;
 
+   Integer statusOrder;
     public Float getTotalMoney() {
         totalMoney = price * quantity;
         return totalMoney;

@@ -16,6 +16,7 @@
     <h1 class="text-danger">Lỗi </h1>
     <h1 class="text-danger">ERROR :${error} </h1>
     <h1 class="text-danger">MESSAGE :${message} </h1>
+<h1 class="text-center text-danger"> Bạn không có quyền</h1>
 
 </body>
 </html>

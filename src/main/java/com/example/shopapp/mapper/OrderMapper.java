@@ -35,6 +35,8 @@ public class OrderMapper {
         orderDetailResponse.setPrice(orderDetail.getPrice());
         orderDetailResponse.setQuantity(orderDetail.getQuantity());
         orderDetailResponse.setStatus(orderDetail.getStatus());
+        //
+        orderDetailResponse.setStatusOrder(orderDetail.getOrder().getStatus());
         return orderDetailResponse;
     }
 }

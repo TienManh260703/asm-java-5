@@ -18,6 +18,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import static com.example.shopapp.common.GenCode.generateCOLOR;
 
@@ -52,7 +53,7 @@ public class OrderController {
             return "redirect:/shop-app/admin/login";
         }
         if (session.get().getRole().equals(Role.EMPLOYEE)) {
-            return "redirect:/shop-app/orders";
+            return "exception/index";
         }
         if (result.hasErrors()) {
             initData(model, 0, 2);
@@ -79,7 +80,8 @@ public class OrderController {
             return "redirect:/shop-app/admin/login";
         }
         if (session.get().getRole().equals(Role.EMPLOYEE)) {
-            return "redirect:/shop-app/orders";
+//            return "redirect:/shop-app/orders";
+            return "exception/index";
         }
         orderService.updateStatus(id, status);
         return "redirect:/shop-app/orders";
@@ -101,6 +103,19 @@ public class OrderController {
         //
         model.addAttribute("ordersDetail", orderDetailService.getOrdersDetailList(id));
         return "/orders/index";
+    }
+
+    @GetMapping("order-detail/deleted")
+    public String deleted (
+            @RequestParam("orderDetailId") String id){
+        if (session.get() == null) {
+            return "redirect:/shop-app/admin/login";
+        }
+        if (session.get().getRole().equals(Role.EMPLOYEE)) {
+            return "exception/index";
+        }
+        orderDetailService.deleted(id);
+        return "redirect:/shop-app/orders";
     }
 
     private void initData(Model model, Integer page, Integer size) {

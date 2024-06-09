@@ -38,6 +38,7 @@ public class OrderDetailServiceIplm implements IOrderDetailService {
         );
     }
 
+    /// find order id
     @Override
     public List<OrderDetailResponse> getOrdersDetailList(String id) {
         return orderDetailRepository.findAllByOrderId(id).stream().map(
@@ -84,9 +85,10 @@ public class OrderDetailServiceIplm implements IOrderDetailService {
     public void deleted(String id) {
         Optional<OrderDetail> optionalOrderDetail = orderDetailRepository.findById(id);
         if (optionalOrderDetail.isPresent()) {
-            OrderDetail orderDetail = optionalOrderDetail.get();
-            orderDetail.setStatus(!orderDetail.getStatus());
-            orderDetailRepository.save(orderDetail);
+//            OrderDetail orderDetail = optionalOrderDetail.get();
+//            orderDetail.setStatus(!orderDetail.getStatus());
+//            orderDetailRepository.save(orderDetail);
+            orderDetailRepository.deleteById(id);
         }
     }
 }

@@ -145,7 +145,6 @@
                                 <input type="hidden" name="orderDetailId" value="${odt.id}">
                                 <input type="hidden" name="pageO" value="${orders.number}">
                                 <input type="hidden" name="pageO" value="${orders.size}">
-
                                 <td>${odt.productDetailName}</td>
                                 <td>${odt.price}</td>
                                 <td>
@@ -171,7 +170,6 @@
                 </table>
             </div>
         </div>
-
         <!-- Order Details Form -->
         <div class="col-md-2">
             <h4>Thông tin đơn hàng</h4>
@@ -255,7 +253,6 @@
         var quantityError = document.getElementById(errorId);
         var quantity = input.value;
         var maxQuantity = parseInt(input.getAttribute("max")); // Lấy giá trị max từ thuộc tính max của input
-
         if (quantity < 1) {
             quantityError.textContent = "Số lượng phải lớn hơn hoặc bằng 1!";
             input.value = 1; // Nếu nhỏ hơn 1, giữ nguyên là 1
